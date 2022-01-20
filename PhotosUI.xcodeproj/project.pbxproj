@@ -15,7 +15,22 @@
 		BFA8F9D027992E1600076044 /* PhotosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA8F9CF27992E1600076044 /* PhotosView.swift */; };
 		BFA8F9D227992E1D00076044 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA8F9D127992E1D00076044 /* SearchView.swift */; };
 		BFA8F9D427992E2300076044 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA8F9D327992E2300076044 /* DetailView.swift */; };
+		BFA8F9E0279932DF00076044 /* PhotoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA8F9DF279932DF00076044 /* PhotoModel.swift */; };
+		BFA8F9E22799333400076044 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA8F9E12799333400076044 /* NetworkManager.swift */; };
+		BFA8F9F3279933E200076044 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA8F9F2279933E200076044 /* MockURLSession.swift */; };
+		BFA8F9F72799346000076044 /* NetworkManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA8F9F62799346000076044 /* NetworkManagerTests.swift */; };
+		BFA8F9F9279934D000076044 /* APIRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA8F9F8279934D000076044 /* APIRouter.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BFA8F9EB279933A400076044 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFA8F9AE27992CF500076044 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BFA8F9B527992CF500076044;
+			remoteInfo = PhotosUI;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		BFA8F9B627992CF500076044 /* PhotosUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotosUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -28,10 +43,23 @@
 		BFA8F9CF27992E1600076044 /* PhotosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosView.swift; sourceTree = "<group>"; };
 		BFA8F9D127992E1D00076044 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		BFA8F9D327992E2300076044 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		BFA8F9DF279932DF00076044 /* PhotoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoModel.swift; sourceTree = "<group>"; };
+		BFA8F9E12799333400076044 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		BFA8F9E7279933A400076044 /* PhotosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotosUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BFA8F9F2279933E200076044 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
+		BFA8F9F62799346000076044 /* NetworkManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerTests.swift; sourceTree = "<group>"; };
+		BFA8F9F8279934D000076044 /* APIRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRouter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		BFA8F9B327992CF500076044 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BFA8F9E4279933A400076044 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -45,6 +73,7 @@
 			isa = PBXGroup;
 			children = (
 				BFA8F9B827992CF500076044 /* PhotosUI */,
+				BFA8F9E8279933A400076044 /* PhotosUITests */,
 				BFA8F9B727992CF500076044 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -53,6 +82,7 @@
 			isa = PBXGroup;
 			children = (
 				BFA8F9B627992CF500076044 /* PhotosUI.app */,
+				BFA8F9E7279933A400076044 /* PhotosUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -62,15 +92,115 @@
 			children = (
 				BFA8F9B927992CF500076044 /* AppDelegate.swift */,
 				BFA8F9BB27992CF500076044 /* SceneDelegate.swift */,
-				BFA8F9CD27992D7C00076044 /* ContentView.swift */,
-				BFA8F9CF27992E1600076044 /* PhotosView.swift */,
-				BFA8F9D127992E1D00076044 /* SearchView.swift */,
-				BFA8F9D327992E2300076044 /* DetailView.swift */,
+				BFA8F9DE279932BF00076044 /* Extensions */,
+				BFA8F9DD279932B500076044 /* Utilities */,
+				BFA8F9DC279932AB00076044 /* Models */,
+				BFA8F9DB279932A400076044 /* Services */,
+				BFA8F9DA279932A000076044 /* Managers */,
+				BFA8F9D52799325100076044 /* Screens */,
 				BFA8F9C227992CF700076044 /* Assets.xcassets */,
 				BFA8F9C427992CF700076044 /* LaunchScreen.storyboard */,
 				BFA8F9C727992CF700076044 /* Info.plist */,
 			);
 			path = PhotosUI;
+			sourceTree = "<group>";
+		};
+		BFA8F9D52799325100076044 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				BFA8F9D82799325F00076044 /* Detail */,
+				BFA8F9D72799325C00076044 /* Search */,
+				BFA8F9D62799325600076044 /* Photos */,
+				BFA8F9CD27992D7C00076044 /* ContentView.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		BFA8F9D62799325600076044 /* Photos */ = {
+			isa = PBXGroup;
+			children = (
+				BFA8F9CF27992E1600076044 /* PhotosView.swift */,
+			);
+			path = Photos;
+			sourceTree = "<group>";
+		};
+		BFA8F9D72799325C00076044 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				BFA8F9D127992E1D00076044 /* SearchView.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		BFA8F9D82799325F00076044 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				BFA8F9D327992E2300076044 /* DetailView.swift */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
+		BFA8F9DA279932A000076044 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				BFA8F9E12799333400076044 /* NetworkManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		BFA8F9DB279932A400076044 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		BFA8F9DC279932AB00076044 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				BFA8F9DF279932DF00076044 /* PhotoModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		BFA8F9DD279932B500076044 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				BFA8F9F8279934D000076044 /* APIRouter.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		BFA8F9DE279932BF00076044 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		BFA8F9E8279933A400076044 /* PhotosUITests */ = {
+			isa = PBXGroup;
+			children = (
+				BFA8F9F0279933B700076044 /* Mocks */,
+				BFA8F9F1279933BC00076044 /* Managers */,
+			);
+			path = PhotosUITests;
+			sourceTree = "<group>";
+		};
+		BFA8F9F0279933B700076044 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				BFA8F9F2279933E200076044 /* MockURLSession.swift */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
+		BFA8F9F1279933BC00076044 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				BFA8F9F62799346000076044 /* NetworkManagerTests.swift */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -93,6 +223,24 @@
 			productReference = BFA8F9B627992CF500076044 /* PhotosUI.app */;
 			productType = "com.apple.product-type.application";
 		};
+		BFA8F9E6279933A400076044 /* PhotosUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BFA8F9ED279933A400076044 /* Build configuration list for PBXNativeTarget "PhotosUITests" */;
+			buildPhases = (
+				BFA8F9E3279933A400076044 /* Sources */,
+				BFA8F9E4279933A400076044 /* Frameworks */,
+				BFA8F9E5279933A400076044 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BFA8F9EC279933A400076044 /* PBXTargetDependency */,
+			);
+			name = PhotosUITests;
+			productName = PhotosUITests;
+			productReference = BFA8F9E7279933A400076044 /* PhotosUITests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -105,6 +253,10 @@
 				TargetAttributes = {
 					BFA8F9B527992CF500076044 = {
 						CreatedOnToolsVersion = 13.2.1;
+					};
+					BFA8F9E6279933A400076044 = {
+						CreatedOnToolsVersion = 13.2.1;
+						TestTargetID = BFA8F9B527992CF500076044;
 					};
 				};
 			};
@@ -122,6 +274,7 @@
 			projectRoot = "";
 			targets = (
 				BFA8F9B527992CF500076044 /* PhotosUI */,
+				BFA8F9E6279933A400076044 /* PhotosUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -136,6 +289,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BFA8F9E5279933A400076044 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -144,15 +304,35 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFA8F9D227992E1D00076044 /* SearchView.swift in Sources */,
+				BFA8F9F9279934D000076044 /* APIRouter.swift in Sources */,
 				BFA8F9D427992E2300076044 /* DetailView.swift in Sources */,
 				BFA8F9BA27992CF500076044 /* AppDelegate.swift in Sources */,
 				BFA8F9CE27992D7C00076044 /* ContentView.swift in Sources */,
+				BFA8F9E22799333400076044 /* NetworkManager.swift in Sources */,
+				BFA8F9E0279932DF00076044 /* PhotoModel.swift in Sources */,
 				BFA8F9BC27992CF500076044 /* SceneDelegate.swift in Sources */,
 				BFA8F9D027992E1600076044 /* PhotosView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BFA8F9E3279933A400076044 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BFA8F9F72799346000076044 /* NetworkManagerTests.swift in Sources */,
+				BFA8F9F3279933E200076044 /* MockURLSession.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BFA8F9EC279933A400076044 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BFA8F9B527992CF500076044 /* PhotosUI */;
+			targetProxy = BFA8F9EB279933A400076044 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		BFA8F9C427992CF700076044 /* LaunchScreen.storyboard */ = {
@@ -338,6 +518,42 @@
 			};
 			name = Release;
 		};
+		BFA8F9EE279933A400076044 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = G99VW8TP32;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.9oya.PhotosUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PhotosUI.app/PhotosUI";
+			};
+			name = Debug;
+		};
+		BFA8F9EF279933A400076044 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = G99VW8TP32;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.9oya.PhotosUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PhotosUI.app/PhotosUI";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -355,6 +571,15 @@
 			buildConfigurations = (
 				BFA8F9CB27992CF700076044 /* Debug */,
 				BFA8F9CC27992CF700076044 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BFA8F9ED279933A400076044 /* Build configuration list for PBXNativeTarget "PhotosUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BFA8F9EE279933A400076044 /* Debug */,
+				BFA8F9EF279933A400076044 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
