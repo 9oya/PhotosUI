@@ -20,6 +20,11 @@
 		BFA8F9F3279933E200076044 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA8F9F2279933E200076044 /* MockURLSession.swift */; };
 		BFA8F9F72799346000076044 /* NetworkManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA8F9F62799346000076044 /* NetworkManagerTests.swift */; };
 		BFA8F9F9279934D000076044 /* APIRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA8F9F8279934D000076044 /* APIRouter.swift */; };
+		BFA8F9FB2799430C00076044 /* PhotoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA8F9FA2799430C00076044 /* PhotoService.swift */; };
+		BFA8F9FD2799465F00076044 /* ManagerProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA8F9FC2799465F00076044 /* ManagerProvider.swift */; };
+		BFA8FA042799527E00076044 /* MockNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA8FA032799527E00076044 /* MockNetworkManager.swift */; };
+		BFA8FA062799536200076044 /* PhotoServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA8FA052799536200076044 /* PhotoServiceTests.swift */; };
+		BFA8FA08279953F100076044 /* MockManagerProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA8FA07279953F100076044 /* MockManagerProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +54,11 @@
 		BFA8F9F2279933E200076044 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		BFA8F9F62799346000076044 /* NetworkManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerTests.swift; sourceTree = "<group>"; };
 		BFA8F9F8279934D000076044 /* APIRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRouter.swift; sourceTree = "<group>"; };
+		BFA8F9FA2799430C00076044 /* PhotoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoService.swift; sourceTree = "<group>"; };
+		BFA8F9FC2799465F00076044 /* ManagerProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagerProvider.swift; sourceTree = "<group>"; };
+		BFA8FA032799527E00076044 /* MockNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkManager.swift; sourceTree = "<group>"; };
+		BFA8FA052799536200076044 /* PhotoServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoServiceTests.swift; sourceTree = "<group>"; };
+		BFA8FA07279953F100076044 /* MockManagerProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockManagerProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +154,7 @@
 			isa = PBXGroup;
 			children = (
 				BFA8F9E12799333400076044 /* NetworkManager.swift */,
+				BFA8F9FC2799465F00076044 /* ManagerProvider.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -151,6 +162,7 @@
 		BFA8F9DB279932A400076044 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				BFA8F9FA2799430C00076044 /* PhotoService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -183,6 +195,7 @@
 			children = (
 				BFA8F9F0279933B700076044 /* Mocks */,
 				BFA8F9F1279933BC00076044 /* Managers */,
+				BFA8F9FE2799521B00076044 /* Services */,
 			);
 			path = PhotosUITests;
 			sourceTree = "<group>";
@@ -190,6 +203,7 @@
 		BFA8F9F0279933B700076044 /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
+				BFA8FA002799524800076044 /* MockManagers */,
 				BFA8F9F2279933E200076044 /* MockURLSession.swift */,
 			);
 			path = Mocks;
@@ -201,6 +215,23 @@
 				BFA8F9F62799346000076044 /* NetworkManagerTests.swift */,
 			);
 			path = Managers;
+			sourceTree = "<group>";
+		};
+		BFA8F9FE2799521B00076044 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				BFA8FA052799536200076044 /* PhotoServiceTests.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		BFA8FA002799524800076044 /* MockManagers */ = {
+			isa = PBXGroup;
+			children = (
+				BFA8FA032799527E00076044 /* MockNetworkManager.swift */,
+				BFA8FA07279953F100076044 /* MockManagerProvider.swift */,
+			);
+			path = MockManagers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -303,9 +334,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BFA8F9FB2799430C00076044 /* PhotoService.swift in Sources */,
 				BFA8F9D227992E1D00076044 /* SearchView.swift in Sources */,
 				BFA8F9F9279934D000076044 /* APIRouter.swift in Sources */,
 				BFA8F9D427992E2300076044 /* DetailView.swift in Sources */,
+				BFA8F9FD2799465F00076044 /* ManagerProvider.swift in Sources */,
 				BFA8F9BA27992CF500076044 /* AppDelegate.swift in Sources */,
 				BFA8F9CE27992D7C00076044 /* ContentView.swift in Sources */,
 				BFA8F9E22799333400076044 /* NetworkManager.swift in Sources */,
@@ -319,6 +352,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BFA8FA08279953F100076044 /* MockManagerProvider.swift in Sources */,
+				BFA8FA062799536200076044 /* PhotoServiceTests.swift in Sources */,
+				BFA8FA042799527E00076044 /* MockNetworkManager.swift in Sources */,
 				BFA8F9F72799346000076044 /* NetworkManagerTests.swift in Sources */,
 				BFA8F9F3279933E200076044 /* MockURLSession.swift in Sources */,
 			);
