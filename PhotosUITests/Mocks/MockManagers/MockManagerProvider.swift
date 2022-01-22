@@ -10,12 +10,16 @@ import Foundation
 
 struct MockManagerProvider: ManagerProviderProtocol {
     var networkManager: NetworkManagerProtocol
+    var memoryCacheManager: MemoryCacheManagerProtocol
+    var diskCacheManager: DiskCacheManagerProtocol
 }
 
 extension MockManagerProvider {
     static func stubs() -> MockManagerProvider {
         return MockManagerProvider(
-            networkManager: MockNetworkManager()
+            networkManager: MockNetworkManager(),
+            memoryCacheManager: MockMemoryCacheManager(),
+            diskCacheManager: MockDiskCacheManager()
         )
     }
 }
