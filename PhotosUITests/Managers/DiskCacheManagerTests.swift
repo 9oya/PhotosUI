@@ -29,7 +29,7 @@ class DiskCacheManagerTests: XCTestCase {
         let data = Data(base64Encoded: "TestData")!
         
         // when
-        _ = manager.store(key: key, data: data)
+        _ = manager.storeIfNeed(key: key, data: data)
         
         // then
         guard let path = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first else {

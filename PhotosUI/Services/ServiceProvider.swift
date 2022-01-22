@@ -9,10 +9,14 @@ import Foundation
 
 protocol ServiceProviderProtocol {
     var photoService: PhotoServiceProtocol { get }
+    var imageCacheServie: ImageCacheServiceProtocol { get }
+    var imageLoadService: ImageLoadServiceProtocol { get }
 }
 
 struct ServiceProvider: ServiceProviderProtocol {
     var photoService: PhotoServiceProtocol
+    var imageCacheServie: ImageCacheServiceProtocol
+    var imageLoadService: ImageLoadServiceProtocol
 }
 
 extension ServiceProvider {
@@ -20,9 +24,15 @@ extension ServiceProvider {
         
         let manager = ManagerProvider.resolve()
         
+        let photoService = PhotoService(provider: manager,
+                                        decoder: JSONDecoder())
+        let imageCacheServie = ImageCacheService(provider: manager)
+        
         return ServiceProvider(
-            photoService: PhotoService(provider: manager,
-                                       decoder: JSONDecoder())
+            photoService: photoService,
+            imageCacheServie: imageCacheServie,
+            imageLoadService: ImageLoadService(photoService: photoService,
+                                               imageCacheServie: imageCacheServie)
         )
     }
 }

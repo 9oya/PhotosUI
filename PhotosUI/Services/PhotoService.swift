@@ -9,9 +9,18 @@ import Combine
 import Foundation
 import UIKit
 
-enum DownloadImageError: Error {
+enum DownloadImageError: Error, CustomStringConvertible {
     case invalidUrlStr
     case invalidData
+    
+    var description: String {
+        switch self {
+        case .invalidUrlStr:
+            return "DownloadImageError: invalidUrlStr"
+        case .invalidData:
+            return "DownloadImageError: invalidData"
+        }
+    }
 }
 
 protocol PhotoServiceProtocol {
@@ -21,7 +30,7 @@ protocol PhotoServiceProtocol {
     -> AnyPublisher<[PhotoModel], Error>
     
     func download(urlStr: String)
-    -> AnyPublisher<UIImage, Error>
+    -> AnyPublisher<Result<UIImage, Error>, Error>
     
 }
 
@@ -66,8 +75,8 @@ class PhotoService: PhotoServiceProtocol {
     }
     
     func download(urlStr: String)
-    -> AnyPublisher<UIImage, Error> {
-        return Future<UIImage, Error>.init { [weak self] promise in
+    -> AnyPublisher<Result<UIImage, Error>, Error> {
+        return Future.init { [weak self] promise in
             guard let `self` = self else { return }
             guard let url = URL(string: urlStr) else {
                 promise(.failure(DownloadImageError.invalidUrlStr))
@@ -81,12 +90,13 @@ class PhotoService: PhotoServiceProtocol {
                         promise(.failure(error))
                     case .success(let data):
                         if let image = UIImage(data: data) {
-                            promise(.success(image))
-                            return
+                            promise(.success(.success(image)))
+                        } else {
+                            promise(.failure(DownloadImageError.invalidData))
                         }
-                        promise(.failure(DownloadImageError.invalidData))
                     }
                 }
         }.eraseToAnyPublisher()
     }
+    
 }

@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 protocol DiskCacheManagerProtocol {
-    func store(key: String, data: Data) -> Bool
+    func storeIfNeed(key: String, data: Data) -> Bool
     func fetch(key: String) -> Data?
 }
 
@@ -21,7 +21,7 @@ class DiskCacheManager: DiskCacheManagerProtocol {
         self.fileManager = fileManager
     }
     
-    func store(key: String, data: Data) -> Bool {
+    func storeIfNeed(key: String, data: Data) -> Bool {
         guard let path = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first else {
             return false
         }
@@ -32,7 +32,9 @@ class DiskCacheManager: DiskCacheManagerProtocol {
             return fileManager.createFile(atPath: filePath.path,
                                    contents: data, attributes: nil)
         }
-        return false
+        
+        // file already exists
+        return true
     }
     
     func fetch(key: String) -> Data? {

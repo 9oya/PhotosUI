@@ -18,7 +18,7 @@ class MockDiskCacheManager: DiskCacheManagerProtocol {
         return Data()
     }
     
-    func store(key: String, data: Data) -> Bool {
+    func storeIfNeed(key: String, data: Data) -> Bool {
         self.key = key
         self.data = data
         return true

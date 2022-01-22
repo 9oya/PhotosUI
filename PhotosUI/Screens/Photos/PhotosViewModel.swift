@@ -37,23 +37,38 @@ class PhotosViewModel: ObservableObject {
             .store(in: &cancellables)
         
         loadImage
-            .sink { [weak self] model in
+            .setFailureType(to: Error.self)
+            .flatMap { [weak self] model -> AnyPublisher<Result<(PhotoModel, UIImage?), Error>, Error> in
                 guard let `self` = self,
-                      case .none = self.photoImgs[model],
-                      let urlStr = model.urls.small else {
-                          return
-                      }
-                self.provider?
-                    .photoService
-                    .download(urlStr: urlStr)
-                    .replaceError(with: UIImage())
-                    .receive(on: RunLoop.main)
-                    .sink(receiveValue: { result in
-                        self.photoImgs[model] = result
-                    })
-                    .store(in: &self.cancellables)
+                      let provider = self.provider else {
+                    return Empty(completeImmediately: true).eraseToAnyPublisher()
+                }
+                return provider.imageLoadService.fetchCachedImage(model)
+            }
+            .flatMap { [weak self] result -> AnyPublisher<Result<(PhotoModel, UIImage), Error>, Error> in
+                guard let `self` = self,
+                      let provider = self.provider else {
+                    return Empty(completeImmediately: true).eraseToAnyPublisher()
+                }
+                return provider.imageLoadService.downloadImage(result)
+            }
+            .flatMap { [weak self] result -> AnyPublisher<Result<(PhotoModel, UIImage), Error>, Error> in
+                guard let `self` = self,
+                      let provider = self.provider else {
+                    return Empty(completeImmediately: true).eraseToAnyPublisher()
+                }
+                return provider.imageLoadService.cacheImage(result)
+            }
+            .receive(on: RunLoop.main, options: nil)
+            .sink { _ in
+            } receiveValue: { result in
+                switch result {
+                case .success(let (model, image)):
+                    self.photoImgs[model] = image
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
             }
             .store(in: &cancellables)
     }
-    
 }
