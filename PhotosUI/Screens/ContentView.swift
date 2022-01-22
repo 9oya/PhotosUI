@@ -9,26 +9,40 @@ import SwiftUI
 
 struct ContentView: View {
     
+    let provider = ServiceProvider.resolve()
+    
     var body: some View {
         TabView {
-            PhotosView()
+            PhotosView(viewModel: PhotosViewModel(provider: provider))
                 .tabItem {
-                    Image(systemName: "photo.fill.on.rectangle.fill")
-                        .resizable()
+                    Image(
+                        uiImage: UIImage(
+                            systemName: "photo.fill.on.rectangle.fill",
+                            withConfiguration: UIImage
+                                .SymbolConfiguration(
+                                    pointSize: 15.0,
+                                    weight: .regular,
+                                    scale: .large))!
+                    )
                 }
+                .background(Color.black)
                 .tag(0)
             SearchView()
                 .tabItem {
-                    Image(systemName: "magnifyingglass")
-                        .resizable()
+                    Image(
+                        uiImage: UIImage(
+                            systemName: "magnifyingglass",
+                            withConfiguration: UIImage
+                                .SymbolConfiguration(
+                                    pointSize: 15.0,
+                                    weight: .regular,
+                                    scale: .large))!
+                    )
                 }
                 .tag(1)
         }
-    }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+        .accentColor(.white)
+        .preferredColorScheme(.dark)
+        
     }
 }

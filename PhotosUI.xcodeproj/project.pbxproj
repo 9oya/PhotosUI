@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BF3EE2DC279A868D00EA2385 /* ServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3EE2DB279A868D00EA2385 /* ServiceProvider.swift */; };
+		BF3EE2DE279A87D300EA2385 /* PhotosViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3EE2DD279A87D300EA2385 /* PhotosViewModel.swift */; };
 		BFA8F9BA27992CF500076044 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA8F9B927992CF500076044 /* AppDelegate.swift */; };
 		BFA8F9BC27992CF500076044 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA8F9BB27992CF500076044 /* SceneDelegate.swift */; };
 		BFA8F9C327992CF700076044 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFA8F9C227992CF700076044 /* Assets.xcassets */; };
@@ -38,6 +40,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BF3EE2DB279A868D00EA2385 /* ServiceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProvider.swift; sourceTree = "<group>"; };
+		BF3EE2DD279A87D300EA2385 /* PhotosViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosViewModel.swift; sourceTree = "<group>"; };
 		BFA8F9B627992CF500076044 /* PhotosUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotosUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFA8F9B927992CF500076044 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BFA8F9BB27992CF500076044 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -130,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				BFA8F9CF27992E1600076044 /* PhotosView.swift */,
+				BF3EE2DD279A87D300EA2385 /* PhotosViewModel.swift */,
 			);
 			path = Photos;
 			sourceTree = "<group>";
@@ -163,6 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				BFA8F9FA2799430C00076044 /* PhotoService.swift */,
+				BF3EE2DB279A868D00EA2385 /* ServiceProvider.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -334,10 +340,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF3EE2DC279A868D00EA2385 /* ServiceProvider.swift in Sources */,
 				BFA8F9FB2799430C00076044 /* PhotoService.swift in Sources */,
 				BFA8F9D227992E1D00076044 /* SearchView.swift in Sources */,
 				BFA8F9F9279934D000076044 /* APIRouter.swift in Sources */,
 				BFA8F9D427992E2300076044 /* DetailView.swift in Sources */,
+				BF3EE2DE279A87D300EA2385 /* PhotosViewModel.swift in Sources */,
 				BFA8F9FD2799465F00076044 /* ManagerProvider.swift in Sources */,
 				BFA8F9BA27992CF500076044 /* AppDelegate.swift in Sources */,
 				BFA8F9CE27992D7C00076044 /* ContentView.swift in Sources */,

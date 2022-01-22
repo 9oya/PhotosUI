@@ -5,7 +5,8 @@
 //  Created by Eido Goya on 2022/01/20.
 //
 
-struct PhotoModel: Codable {
+struct PhotoModel: Hashable, Identifiable, Codable {
+    
     let id: String
     let createdAt: String
     let updatedAt: String?
@@ -30,7 +31,7 @@ struct PhotoModel: Codable {
         case description, urls, links
     }
     
-    struct Urls: Codable {
+    struct Urls: Hashable, Codable {
         let raw: String?
         let full: String?
         let regular: String?
@@ -38,7 +39,7 @@ struct PhotoModel: Codable {
         let thumb: String?
     }
     
-    struct Links: Codable {
+    struct Links: Hashable, Codable {
         let its: String?
         let html: String?
         let download: String?
@@ -53,7 +54,7 @@ struct PhotoModel: Codable {
     }
 }
 
-struct SearchPhotoModel: Codable {
+struct SearchPhotoModel: Hashable, Codable {
     let total: Int
     let totalPages: Int
     let results: [PhotoModel]?

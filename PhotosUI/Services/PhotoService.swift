@@ -7,11 +7,22 @@
 
 import Combine
 import Foundation
+import UIKit
+
+enum DownloadImageError: Error {
+    case invalidUrlStr
+    case invalidData
+}
 
 protocol PhotoServiceProtocol {
+    
     func photos(page: Int,
                 clientId: String)
     -> AnyPublisher<[PhotoModel], Error>
+    
+    func download(urlStr: String)
+    -> AnyPublisher<UIImage, Error>
+    
 }
 
 class PhotoService: PhotoServiceProtocol {
@@ -32,7 +43,8 @@ class PhotoService: PhotoServiceProtocol {
             .getPhotos(clientId: clientId,
                        page: page)
             .asURLRequest()
-        return Future<[PhotoModel], Error>.init { promise in
+        return Future<[PhotoModel], Error>.init { [weak self] promise in
+            guard let `self` = self else { return }
             self.provider
                 .networkManager
                 .dataTask(request: urlReq) { result in
@@ -48,6 +60,31 @@ class PhotoService: PhotoServiceProtocol {
                         }
                     case .failure(let error):
                         promise(.failure(error))
+                    }
+                }
+        }.eraseToAnyPublisher()
+    }
+    
+    func download(urlStr: String)
+    -> AnyPublisher<UIImage, Error> {
+        return Future<UIImage, Error>.init { [weak self] promise in
+            guard let `self` = self else { return }
+            guard let url = URL(string: urlStr) else {
+                promise(.failure(DownloadImageError.invalidUrlStr))
+                return
+            }
+            self.provider
+                .networkManager
+                .dataTask(request: url) { result in
+                    switch result {
+                    case .failure(let error):
+                        promise(.failure(error))
+                    case .success(let data):
+                        if let image = UIImage(data: data) {
+                            promise(.success(image))
+                            return
+                        }
+                        promise(.failure(DownloadImageError.invalidData))
                     }
                 }
         }.eraseToAnyPublisher()

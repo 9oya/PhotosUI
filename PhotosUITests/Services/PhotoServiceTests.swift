@@ -34,9 +34,7 @@ class PhotoServiceTests: XCTestCase {
         // when
         _ = service.photos(page: page, clientId: clientId)
             .sink { _ in
-                
             } receiveValue: { _ in
-                
             }
         
         // then
@@ -44,5 +42,19 @@ class PhotoServiceTests: XCTestCase {
             clientId: clientId,
             page: page).asURLRequest()
         XCTAssertEqual(expectedReq, manager.urlRequest)
+    }
+    
+    func test_download() {
+        let urlStr = "TestUrlStr"
+        
+        _ = service.download(urlStr: urlStr)
+            .sink(receiveCompletion: { _ in
+            }, receiveValue: { _ in
+            })
+        
+        guard let url = URL(string: urlStr) else {
+            fatalError()
+        }
+        XCTAssertEqual(url, manager.url)
     }
 }

@@ -9,20 +9,18 @@ import SwiftUI
 
 struct PhotosView: View {
     
-    @State var photos = ["1", "2", "3", "4"]
+    @ObservedObject var viewModel: PhotosViewModel
     
     var body: some View {
-        List {
-            ForEach(photos, id: \.self) { photo in
-                Text(photo)
-            }
+        List(viewModel.photos) { model in
+            Image(uiImage: self.viewModel.photoImgs[model] ?? UIImage())
+                .listRowInsets(EdgeInsets())
+                .onAppear {
+                    self.viewModel.loadImage.send(model)
+                }
         }
         .background(Color.black)
-    }
-}
-
-struct PhotosView_Previews: PreviewProvider {
-    static var previews: some View {
-        PhotosView()
+        .listStyle(.plain)
+        .onAppear(perform: self.viewModel.fetchPhotos.send)
     }
 }
