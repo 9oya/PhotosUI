@@ -59,7 +59,6 @@ class PhotosViewModel: ObservableObject {
                 }
                 return provider.imageLoadService.cacheImage(result)
             }
-            .receive(on: RunLoop.main, options: nil)
             .sink { _ in
             } receiveValue: { result in
                 switch result {

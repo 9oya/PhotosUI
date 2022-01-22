@@ -25,6 +25,7 @@
 		BF86D1BF279BD4F100A7CAC8 /* MockPhotoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF86D1BE279BD4F100A7CAC8 /* MockPhotoService.swift */; };
 		BF86D1C1279BD4FA00A7CAC8 /* MockImageCacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF86D1C0279BD4FA00A7CAC8 /* MockImageCacheService.swift */; };
 		BF86D1C3279BD50400A7CAC8 /* MockServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF86D1C2279BD50400A7CAC8 /* MockServiceProvider.swift */; };
+		BF86D1C5279BF0AE00A7CAC8 /* MockImageLoadService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF86D1C4279BF0AE00A7CAC8 /* MockImageLoadService.swift */; };
 		BFA8F9BA27992CF500076044 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA8F9B927992CF500076044 /* AppDelegate.swift */; };
 		BFA8F9BC27992CF500076044 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA8F9BB27992CF500076044 /* SceneDelegate.swift */; };
 		BFA8F9C327992CF700076044 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFA8F9C227992CF700076044 /* Assets.xcassets */; };
@@ -74,6 +75,7 @@
 		BF86D1BE279BD4F100A7CAC8 /* MockPhotoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPhotoService.swift; sourceTree = "<group>"; };
 		BF86D1C0279BD4FA00A7CAC8 /* MockImageCacheService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockImageCacheService.swift; sourceTree = "<group>"; };
 		BF86D1C2279BD50400A7CAC8 /* MockServiceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockServiceProvider.swift; sourceTree = "<group>"; };
+		BF86D1C4279BF0AE00A7CAC8 /* MockImageLoadService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockImageLoadService.swift; sourceTree = "<group>"; };
 		BFA8F9B627992CF500076044 /* PhotosUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotosUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFA8F9B927992CF500076044 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BFA8F9BB27992CF500076044 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 			children = (
 				BF86D1BE279BD4F100A7CAC8 /* MockPhotoService.swift */,
 				BF86D1C0279BD4FA00A7CAC8 /* MockImageCacheService.swift */,
+				BF86D1C4279BF0AE00A7CAC8 /* MockImageLoadService.swift */,
 				BF86D1C2279BD50400A7CAC8 /* MockServiceProvider.swift */,
 			);
 			path = MockServices;
@@ -429,6 +432,7 @@
 				BF86D1BC279BD11D00A7CAC8 /* ImageLoadServiceTests.swift in Sources */,
 				BF86D1AC279BA06400A7CAC8 /* DiskCacheManagerTests.swift in Sources */,
 				BF86D1B2279BA16000A7CAC8 /* MockDiskCacheManager.swift in Sources */,
+				BF86D1C5279BF0AE00A7CAC8 /* MockImageLoadService.swift in Sources */,
 				BF86D1BA279BD11100A7CAC8 /* ImageCacheServiceTests.swift in Sources */,
 				BF86D1AE279BA07200A7CAC8 /* MemoryCacheManagerTests.swift in Sources */,
 				BF86D1C3279BD50400A7CAC8 /* MockServiceProvider.swift in Sources */,

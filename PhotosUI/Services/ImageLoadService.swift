@@ -27,7 +27,6 @@ class ImageLoadService: ImageLoadServiceProtocol {
     var imageCacheServie: ImageCacheServiceProtocol?
     var cancellables: [AnyCancellable] = []
     
-    
     init(photoService: PhotoServiceProtocol,
          imageCacheServie: ImageCacheServiceProtocol) {
         self.photoService = photoService

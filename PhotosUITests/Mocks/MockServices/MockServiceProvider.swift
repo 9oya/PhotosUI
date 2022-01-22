@@ -10,25 +10,18 @@ import UIKit
 import Combine
 @testable import PhotosUI
 
-class MockServiceProvider: PhotoServiceProtocol {
-    
-    var page: Int?
-    var clientId: String?
-    var keyword: String?
-    var urlStr: String?
-    
-    func photos(page: Int, clientId: String) -> AnyPublisher<[PhotoModel], Error> {
-        self.page = page
-        self.clientId = clientId
-        return Future.init { promise in
-            promise(.success([]))
-        }.eraseToAnyPublisher()
-    }
-    
-    func download(urlStr: String) -> AnyPublisher<Result<UIImage, Error>, Error> {
-        self.urlStr = urlStr
-        return Future.init { promise in
-            promise(.success(.success(UIImage())))
-        }.eraseToAnyPublisher()
+struct MockServiceProvider: ServiceProviderProtocol {
+    var photoService: PhotoServiceProtocol
+    var imageCacheServie: ImageCacheServiceProtocol
+    var imageLoadService: ImageLoadServiceProtocol
+}
+
+extension MockServiceProvider {
+    static func stubs() -> ServiceProviderProtocol {
+        return MockServiceProvider(
+            photoService: MockPhotoService(),
+            imageCacheServie: MockImageCacheService(),
+            imageLoadService: MockImageLoadService()
+        )
     }
 }
