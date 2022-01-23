@@ -15,16 +15,17 @@ class DetailViewModel: ObservableObject {
     var cancellables: [AnyCancellable] = []
     
     private var page: Int
-    private var idx: Int
     private var keyword: String?
     
     // MARK: Inputs
     let fetchPhotos = PassthroughSubject<PhotoModel?, Never>()
     let loadImage = PassthroughSubject<PhotoModel, Never>()
+    let idxChanged = PassthroughSubject<Int, Never>()
     
     // MARK: Outputs
     @Published var photos = [PhotoModel]()
     @Published var photoImgMap = [PhotoModel: UIImage]()
+    @Published var idx: Int
     
     init(photos: [PhotoModel],
          photoImgMap: [PhotoModel: UIImage],
@@ -36,8 +37,13 @@ class DetailViewModel: ObservableObject {
         self.page = page
         self.idx = idx
         self.keyword = keyword
+        
+        idxChanged
+            .sink { idx in
+                self.idx = idx
+            }
+            .store(in: &cancellables)
     }
-    
 }
 
 extension DetailViewModel {

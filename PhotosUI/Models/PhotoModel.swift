@@ -54,10 +54,6 @@ struct PhotoModel: Hashable, Equatable, Identifiable, Codable {
             case downloadLocation = "download_location"
         }
     }
-    
-    static func == (lhs: Self, rhs: Self) -> Bool {
-        return lhs.id == rhs.id
-    }
 }
 
 struct SearchPhotoModel: Hashable, Codable {

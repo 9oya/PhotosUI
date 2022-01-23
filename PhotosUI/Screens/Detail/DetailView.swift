@@ -11,11 +11,12 @@ struct DetailView: View {
     
     @ObservedObject var viewModel: DetailViewModel
     
-    @State private var currentPage = 0
+//    @State var currentPage: Int = 0
+    @State var currIdx: Int
     
     var body: some View {
         PagerView(pageCount: viewModel.photos.count,
-                  currentIndex: $currentPage) {
+                  currentIndex: $currIdx) {
             ForEach(viewModel.photos) { model in
                 VStack {
                     Spacer()

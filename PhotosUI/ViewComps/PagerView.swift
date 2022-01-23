@@ -9,16 +9,22 @@ import SwiftUI
 
 struct PagerView<Content: View>: View {
     let pageCount: Int
-    @State var ignore: Bool = false
-    @Binding var currentIndex: Int
-    @State var currentFloatIndex: CGFloat = 0 {
+        @State var ignore: Bool = false
+        @Binding var currentIndex: Int {
+            didSet {
+                if (!ignore) {
+                    currentFloatIndex = CGFloat(currentIndex)
+                }
+            }
+        }
+        @State var currentFloatIndex: CGFloat = 0 {
             didSet {
                 ignore = true
                 currentIndex = min(max(Int(currentFloatIndex.rounded()), 0), self.pageCount - 1)
                 ignore = false
             }
         }
-    let content: Content
+        let content: Content
 
     @GestureState private var translation: CGFloat = 0
 
@@ -41,10 +47,9 @@ struct PagerView<Content: View>: View {
                 DragGesture().updating(self.$translation) { value, state, _ in
                     state = value.translation.width
                 }.onEnded { value in
-                    
                     let offset = value.translation.width / geometry.size.width
                     let offsetPredicted = value.predictedEndTranslation.width / geometry.size.width
-                    let newIndex = CGFloat(self.currentFloatIndex) - offset
+                    let newIndex = (CGFloat(self.currentIndex) - offset).rounded()
                     
                     self.currentFloatIndex = newIndex
                     

@@ -42,7 +42,8 @@ struct PhotosView: View {
                                      page: self.viewModel.page,
                                      idx: self.viewModel.photos.firstIndex(where: { $0 == model }) ?? 0,
                                      keyword: nil)
-            DetailView(viewModel: vm)
+            DetailView(viewModel: vm,
+                       currIdx: self.viewModel.photos.firstIndex(where: { $0 == model }) ?? 0)
         })
     }
     
