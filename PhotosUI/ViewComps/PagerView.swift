@@ -9,22 +9,22 @@ import SwiftUI
 
 struct PagerView<Content: View>: View {
     let pageCount: Int
-        @State var ignore: Bool = false
-        @Binding var currentIndex: Int {
-            didSet {
-                if (!ignore) {
-                    currentFloatIndex = CGFloat(currentIndex)
-                }
+    @State var ignore: Bool = false
+    @Binding var currentIndex: Int {
+        didSet {
+            if (!ignore) {
+                currentFloatIndex = CGFloat(currentIndex)
             }
         }
-        @State var currentFloatIndex: CGFloat = 0 {
-            didSet {
-                ignore = true
-                currentIndex = min(max(Int(currentFloatIndex.rounded()), 0), self.pageCount - 1)
-                ignore = false
-            }
+    }
+    @State var currentFloatIndex: CGFloat = 0 {
+        didSet {
+            ignore = true
+            currentIndex = min(max(Int(currentFloatIndex.rounded()), 0), self.pageCount - 1)
+            ignore = false
         }
-        let content: Content
+    }
+    let content: Content
 
     @GestureState private var translation: CGFloat = 0
 

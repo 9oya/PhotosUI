@@ -37,10 +37,10 @@ struct PhotosView: View {
             self.viewModel.fetchPhotos.send(nil)
         }
         .sheet(item: self.$selectedItem, content: { model in
-            let vm = DetailViewModel(photos: self.viewModel.photos,
+            let vm = DetailViewModel(provider: self.viewModel.provider!,
+                                     photos: self.viewModel.photos,
                                      photoImgMap: self.viewModel.photoImgMap,
                                      page: self.viewModel.page,
-                                     idx: self.viewModel.photos.firstIndex(where: { $0 == model }) ?? 0,
                                      keyword: nil)
             DetailView(viewModel: vm,
                        currIdx: self.viewModel.photos.firstIndex(where: { $0 == model }) ?? 0)

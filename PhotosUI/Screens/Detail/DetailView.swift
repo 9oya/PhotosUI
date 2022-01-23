@@ -6,12 +6,12 @@
 //
 
 import SwiftUI
+import Combine
 
 struct DetailView: View {
     
     @ObservedObject var viewModel: DetailViewModel
     
-//    @State var currentPage: Int = 0
     @State var currIdx: Int
     
     var body: some View {
@@ -23,14 +23,17 @@ struct DetailView: View {
                     Image(uiImage: self.viewModel.photoImgMap[model] ?? UIImage())
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .onAppear {
+                        .onAppear(perform: {
                             self.viewModel.loadImage.send(model)
-                            self.viewModel.fetchPhotos.send(model)
-                        }
+                        })
                         .background(Color.yellow)
                     Spacer()
                 }
             }
-        }
+        }.onReceive(Just(currIdx), perform: { value in
+            if !self.viewModel.isLoading {
+                self.viewModel.idxChanged.send(value)
+            }
+        })
     }
 }
