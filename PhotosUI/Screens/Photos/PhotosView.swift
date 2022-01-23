@@ -12,15 +12,22 @@ struct PhotosView: View {
     @ObservedObject var viewModel: PhotosViewModel
     
     var body: some View {
-        List(viewModel.photos) { model in
+        
+        List(viewModel.photos, id: \.self) { model in
             Image(uiImage: self.viewModel.photoImgs[model] ?? UIImage())
                 .listRowInsets(EdgeInsets())
+                .frame(width: self.viewModel.width(model),
+                       height: self.viewModel.height(model),
+                       alignment: .center)
                 .onAppear {
                     self.viewModel.loadImage.send(model)
+                    self.viewModel.fetchPhotos.send(model)
                 }
         }
         .background(Color.black)
         .listStyle(.plain)
-        .onAppear(perform: self.viewModel.fetchPhotos.send)
+        .onAppear {
+            self.viewModel.fetchPhotos.send(nil)
+        }
     }
 }

@@ -13,10 +13,13 @@ class PhotosViewModel: ObservableObject {
     
     var provider: ServiceProviderProtocol?
     var cancellables: [AnyCancellable] = []
+    private var page = 1
     
-    let fetchPhotos = PassthroughSubject<Void, Never>()
+    // MARK: Inputs
+    let fetchPhotos = PassthroughSubject<PhotoModel?, Never>()
     let loadImage = PassthroughSubject<PhotoModel, Never>()
     
+    // MARK: Outputs
     @Published var photos = [PhotoModel]()
     @Published var photoImgs = [PhotoModel: UIImage]()
     
@@ -24,20 +27,32 @@ class PhotosViewModel: ObservableObject {
         self.provider = provider
         
         fetchPhotos
-            .sink { [weak self] _ in
-                guard let `self` = self else { return }
-                self.provider?
+            .setFailureType(to: Error.self)
+            .receive(on: DispatchQueue.global(qos: .userInteractive))
+            .flatMap { [weak self] model -> AnyPublisher<[PhotoModel], Error> in
+                guard let `self` = self,
+                      model == nil || model == self.photos[self.photos.count-2],
+                      let provider = self.provider,
+                      let clinetId = Bundle.main.object(forInfoDictionaryKey: "UnsplashAccessKey") as? String else {
+                    return Empty(completeImmediately: true).eraseToAnyPublisher()
+                }
+                return provider
                     .photoService
-                    .photos(page: 1, clientId: "CKofQaRSPXUTet3jmUM4WAswOpQMbEfCjSt2h0zOCKE")
-                    .replaceError(with: [])
-                    .receive(on: RunLoop.main, options: .none)
-                    .assign(to: \.photos, on: self)
-                    .store(in: &self.cancellables)
+                    .photos(page: self.page,
+                            clientId: clinetId)
             }
-            .store(in: &cancellables)
+            .replaceError(with: [])
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { _ in
+            }, receiveValue: { photos in
+                self.photos.append(contentsOf: photos)
+                self.page += 1
+            })
+            .store(in: &self.cancellables)
         
         loadImage
             .setFailureType(to: Error.self)
+            .receive(on: DispatchQueue.global(qos: .userInteractive))
             .flatMap { [weak self] model -> AnyPublisher<Result<(PhotoModel, UIImage?), Error>, Error> in
                 guard let `self` = self,
                       let provider = self.provider else {
@@ -59,6 +74,7 @@ class PhotosViewModel: ObservableObject {
                 }
                 return provider.imageLoadService.cacheImage(result)
             }
+            .receive(on: DispatchQueue.main)
             .sink { _ in
             } receiveValue: { result in
                 switch result {
@@ -70,4 +86,20 @@ class PhotosViewModel: ObservableObject {
             }
             .store(in: &cancellables)
     }
+    
+}
+
+extension PhotosViewModel {
+    
+    func width(_ model: PhotoModel) -> CGFloat {
+        let screenWidth = UIScreen.main.bounds.size.width
+        return screenWidth
+    }
+    
+    func height(_ model: PhotoModel) -> CGFloat {
+        let ratio = width(model) / CGFloat(model.width)
+        let height = CGFloat(model.height) * ratio
+        return height
+    }
+    
 }

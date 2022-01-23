@@ -5,7 +5,9 @@
 //  Created by Eido Goya on 2022/01/20.
 //
 
-struct PhotoModel: Hashable, Identifiable, Codable {
+import Foundation
+
+struct PhotoModel: Hashable, Equatable, Identifiable, Codable {
     
     let id: String
     let createdAt: String
@@ -51,6 +53,10 @@ struct PhotoModel: Hashable, Identifiable, Codable {
             case download
             case downloadLocation = "download_location"
         }
+    }
+    
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        return lhs.id == rhs.id
     }
 }
 
