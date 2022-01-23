@@ -66,7 +66,6 @@ class ImageLoadService: ImageLoadServiceProtocol {
                 }
                 self.photoService?
                     .download(urlStr: urlStr)
-                    .receive(on: RunLoop.main, options: nil)
                     .sink(receiveCompletion: { _ in
                     }, receiveValue: { result in
                         switch result {

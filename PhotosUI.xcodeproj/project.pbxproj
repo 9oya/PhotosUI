@@ -26,6 +26,8 @@
 		BF86D1C1279BD4FA00A7CAC8 /* MockImageCacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF86D1C0279BD4FA00A7CAC8 /* MockImageCacheService.swift */; };
 		BF86D1C3279BD50400A7CAC8 /* MockServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF86D1C2279BD50400A7CAC8 /* MockServiceProvider.swift */; };
 		BF86D1C5279BF0AE00A7CAC8 /* MockImageLoadService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF86D1C4279BF0AE00A7CAC8 /* MockImageLoadService.swift */; };
+		BFA43EEF279D0E5C00D2F65A /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA43EEE279D0E5C00D2F65A /* DetailViewModel.swift */; };
+		BFA43EF2279D28C100D2F65A /* PagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA43EF1279D28C100D2F65A /* PagerView.swift */; };
 		BFA8F9BA27992CF500076044 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA8F9B927992CF500076044 /* AppDelegate.swift */; };
 		BFA8F9BC27992CF500076044 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA8F9BB27992CF500076044 /* SceneDelegate.swift */; };
 		BFA8F9C327992CF700076044 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFA8F9C227992CF700076044 /* Assets.xcassets */; };
@@ -76,6 +78,8 @@
 		BF86D1C0279BD4FA00A7CAC8 /* MockImageCacheService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockImageCacheService.swift; sourceTree = "<group>"; };
 		BF86D1C2279BD50400A7CAC8 /* MockServiceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockServiceProvider.swift; sourceTree = "<group>"; };
 		BF86D1C4279BF0AE00A7CAC8 /* MockImageLoadService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockImageLoadService.swift; sourceTree = "<group>"; };
+		BFA43EEE279D0E5C00D2F65A /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
+		BFA43EF1279D28C100D2F65A /* PagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagerView.swift; sourceTree = "<group>"; };
 		BFA8F9B627992CF500076044 /* PhotosUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotosUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFA8F9B927992CF500076044 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BFA8F9BB27992CF500076044 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -128,6 +132,14 @@
 			path = MockServices;
 			sourceTree = "<group>";
 		};
+		BFA43EF0279D289700D2F65A /* ViewComps */ = {
+			isa = PBXGroup;
+			children = (
+				BFA43EF1279D28C100D2F65A /* PagerView.swift */,
+			);
+			path = ViewComps;
+			sourceTree = "<group>";
+		};
 		BFA8F9AD27992CF500076044 = {
 			isa = PBXGroup;
 			children = (
@@ -156,6 +168,7 @@
 				BFA8F9DC279932AB00076044 /* Models */,
 				BFA8F9DB279932A400076044 /* Services */,
 				BFA8F9DA279932A000076044 /* Managers */,
+				BFA43EF0279D289700D2F65A /* ViewComps */,
 				BFA8F9D52799325100076044 /* Screens */,
 				BFA8F9C227992CF700076044 /* Assets.xcassets */,
 				BFA8F9C427992CF700076044 /* LaunchScreen.storyboard */,
@@ -196,6 +209,7 @@
 			isa = PBXGroup;
 			children = (
 				BFA8F9D327992E2300076044 /* DetailView.swift */,
+				BFA43EEE279D0E5C00D2F65A /* DetailViewModel.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -406,6 +420,8 @@
 				BFA8F9F9279934D000076044 /* APIRouter.swift in Sources */,
 				BFA8F9D427992E2300076044 /* DetailView.swift in Sources */,
 				BF3EE2DE279A87D300EA2385 /* PhotosViewModel.swift in Sources */,
+				BFA43EEF279D0E5C00D2F65A /* DetailViewModel.swift in Sources */,
+				BFA43EF2279D28C100D2F65A /* PagerView.swift in Sources */,
 				BF86D1B8279BC2CD00A7CAC8 /* ImageLoadService.swift in Sources */,
 				BFA8F9FD2799465F00076044 /* ManagerProvider.swift in Sources */,
 				BF86D1B6279BA3D900A7CAC8 /* String+Extension.swift in Sources */,

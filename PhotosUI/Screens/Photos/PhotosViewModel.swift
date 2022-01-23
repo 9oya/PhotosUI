@@ -13,7 +13,7 @@ class PhotosViewModel: ObservableObject {
     
     var provider: ServiceProviderProtocol?
     var cancellables: [AnyCancellable] = []
-    private var page = 1
+    var page = 1
     
     // MARK: Inputs
     let fetchPhotos = PassthroughSubject<PhotoModel?, Never>()
@@ -21,7 +21,7 @@ class PhotosViewModel: ObservableObject {
     
     // MARK: Outputs
     @Published var photos = [PhotoModel]()
-    @Published var photoImgs = [PhotoModel: UIImage]()
+    @Published var photoImgMap = [PhotoModel: UIImage]()
     
     init(provider: ServiceProviderProtocol) {
         self.provider = provider
@@ -79,7 +79,7 @@ class PhotosViewModel: ObservableObject {
             } receiveValue: { result in
                 switch result {
                 case .success(let (model, image)):
-                    self.photoImgs[model] = image
+                    self.photoImgMap[model] = image
                 case .failure(let error):
                     print(error.localizedDescription)
                 }

@@ -8,13 +8,28 @@
 import SwiftUI
 
 struct DetailView: View {
+    
+    @ObservedObject var viewModel: DetailViewModel
+    
+    @State private var currentPage = 0
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
-
-struct DetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        DetailView()
+        PagerView(pageCount: viewModel.photos.count,
+                  currentIndex: $currentPage) {
+            ForEach(viewModel.photos) { model in
+                VStack {
+                    Spacer()
+                    Image(uiImage: self.viewModel.photoImgMap[model] ?? UIImage())
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .onAppear {
+                            self.viewModel.loadImage.send(model)
+                            self.viewModel.fetchPhotos.send(model)
+                        }
+                        .background(Color.yellow)
+                    Spacer()
+                }
+            }
+        }
     }
 }
