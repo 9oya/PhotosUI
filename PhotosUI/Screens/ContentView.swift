@@ -13,8 +13,7 @@ struct ContentView: View {
     
     var body: some View {
         TabView {
-            PhotosView(viewModel: PhotosViewModel(provider: provider),
-                       detailIdx: 0)
+            PhotosView(viewModel: PhotosViewModel(provider: provider))
                 .tabItem {
                     Image(
                         uiImage: UIImage(
@@ -28,7 +27,7 @@ struct ContentView: View {
                 }
                 .background(Color.black)
                 .tag(0)
-            SearchView()
+            SearchView(viewModel: SearchViewModel(provider: provider))
                 .tabItem {
                     Image(
                         uiImage: UIImage(

@@ -12,9 +12,7 @@ struct PhotosView: View {
     
     @ObservedObject var viewModel: PhotosViewModel
     
-    @State var showModal = false
     @State var selectedItem: PhotoModel?
-    
     @State var detailIdx: Int = -1
     
     private let scrollingProxy = ListScrollingProxy()
@@ -53,15 +51,17 @@ struct PhotosView: View {
                 .onDisappear {
                     self.viewModel.photos = vm.photos
                     self.viewModel.photoImgMap = vm.photoImgMap
+                    self.viewModel.hasScrolled = false
                     print("DetailView onDisappear")
                 }
         })
         .onReceive(Just(detailIdx)) { value in
-            if detailIdx > 0 {
-                print("String scrolling!!")
+            if detailIdx > 0 && !viewModel.hasScrolled {
+                print("Start scrolling!!")
                 self.scrollingProxy
                     .scrollTo(.point(point: self.viewModel.nextPoint(value),
                                      animated: false))
+                viewModel.hasScrolled = true
             }
         }
     }

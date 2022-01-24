@@ -28,7 +28,6 @@ struct DetailView: View {
                         .onAppear(perform: {
                             self.viewModel.loadImage.send(model)
                         })
-                        .background(Color.yellow)
                     Spacer()
                 }
             }
