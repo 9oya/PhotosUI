@@ -13,7 +13,8 @@ struct ContentView: View {
     
     var body: some View {
         TabView {
-            PhotosView(viewModel: PhotosViewModel(provider: provider))
+            PhotosView(viewModel: PhotosViewModel(provider: provider),
+                       detailIdx: 0)
                 .tabItem {
                     Image(
                         uiImage: UIImage(

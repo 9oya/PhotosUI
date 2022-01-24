@@ -12,11 +12,13 @@ struct DetailView: View {
     
     @ObservedObject var viewModel: DetailViewModel
     
-    @State var currIdx: Int
+    @State var currentIndex: Int
+    
+    @Binding var photoViewIdx: Int
     
     var body: some View {
         PagerView(pageCount: viewModel.photos.count,
-                  currentIndex: $currIdx) {
+                  currentIndex: $currentIndex) {
             ForEach(viewModel.photos) { model in
                 VStack {
                     Spacer()
@@ -30,10 +32,13 @@ struct DetailView: View {
                     Spacer()
                 }
             }
-        }.onReceive(Just(currIdx), perform: { value in
+        }.onReceive(Just(currentIndex), perform: { value in
             if !self.viewModel.isLoading {
                 self.viewModel.idxChanged.send(value)
             }
-        })
+        }).onDisappear {
+            photoViewIdx = currentIndex
+            print("PagerView onDisappear")
+        }
     }
 }

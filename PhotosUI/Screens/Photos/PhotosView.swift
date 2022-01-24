@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import AVFAudio
+import Combine
 
 struct PhotosView: View {
     
@@ -14,6 +14,10 @@ struct PhotosView: View {
     
     @State var showModal = false
     @State var selectedItem: PhotoModel?
+    
+    @State var detailIdx: Int = -1
+    
+    private let scrollingProxy = ListScrollingProxy()
     
     var body: some View {
         
@@ -23,6 +27,7 @@ struct PhotosView: View {
                 .frame(width: self.viewModel.width(model),
                        height: self.viewModel.height(model),
                        alignment: .center)
+                .background(ListScrollingHelper(proxy: self.scrollingProxy))
                 .onAppear {
                     self.viewModel.loadImage.send(model)
                     self.viewModel.fetchPhotos.send(model)
@@ -43,8 +48,22 @@ struct PhotosView: View {
                                      page: self.viewModel.page,
                                      keyword: nil)
             DetailView(viewModel: vm,
-                       currIdx: self.viewModel.photos.firstIndex(where: { $0 == model }) ?? 0)
+                       currentIndex: self.viewModel.photos.firstIndex(where: { $0 == model }) ?? 0,
+                       photoViewIdx: self.$detailIdx)
+                .onDisappear {
+                    self.viewModel.photos = vm.photos
+                    self.viewModel.photoImgMap = vm.photoImgMap
+                    print("DetailView onDisappear")
+                }
         })
+        .onReceive(Just(detailIdx)) { value in
+            if detailIdx > 0 {
+                print("String scrolling!!")
+                self.scrollingProxy
+                    .scrollTo(.point(point: self.viewModel.nextPoint(value),
+                                     animated: false))
+            }
+        }
     }
     
 }

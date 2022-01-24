@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BF2986D9279E36500074C9E4 /* ListScrollingProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF2986D8279E36500074C9E4 /* ListScrollingProxy.swift */; };
 		BF3EE2DC279A868D00EA2385 /* ServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3EE2DB279A868D00EA2385 /* ServiceProvider.swift */; };
 		BF3EE2DE279A87D300EA2385 /* PhotosViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3EE2DD279A87D300EA2385 /* PhotosViewModel.swift */; };
 		BF86D1A4279B9F9300A7CAC8 /* MemoryCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF86D1A3279B9F9300A7CAC8 /* MemoryCacheManager.swift */; };
@@ -59,6 +60,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BF2986D8279E36500074C9E4 /* ListScrollingProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListScrollingProxy.swift; sourceTree = "<group>"; };
 		BF3EE2DB279A868D00EA2385 /* ServiceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProvider.swift; sourceTree = "<group>"; };
 		BF3EE2DD279A87D300EA2385 /* PhotosViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosViewModel.swift; sourceTree = "<group>"; };
 		BF86D1A3279B9F9300A7CAC8 /* MemoryCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryCacheManager.swift; sourceTree = "<group>"; };
@@ -132,14 +134,6 @@
 			path = MockServices;
 			sourceTree = "<group>";
 		};
-		BFA43EF0279D289700D2F65A /* ViewComps */ = {
-			isa = PBXGroup;
-			children = (
-				BFA43EF1279D28C100D2F65A /* PagerView.swift */,
-			);
-			path = ViewComps;
-			sourceTree = "<group>";
-		};
 		BFA8F9AD27992CF500076044 = {
 			isa = PBXGroup;
 			children = (
@@ -168,7 +162,6 @@
 				BFA8F9DC279932AB00076044 /* Models */,
 				BFA8F9DB279932A400076044 /* Services */,
 				BFA8F9DA279932A000076044 /* Managers */,
-				BFA43EF0279D289700D2F65A /* ViewComps */,
 				BFA8F9D52799325100076044 /* Screens */,
 				BFA8F9C227992CF700076044 /* Assets.xcassets */,
 				BFA8F9C427992CF700076044 /* LaunchScreen.storyboard */,
@@ -248,6 +241,8 @@
 			isa = PBXGroup;
 			children = (
 				BFA8F9F8279934D000076044 /* APIRouter.swift */,
+				BF2986D8279E36500074C9E4 /* ListScrollingProxy.swift */,
+				BFA43EF1279D28C100D2F65A /* PagerView.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -427,6 +422,7 @@
 				BF86D1B6279BA3D900A7CAC8 /* String+Extension.swift in Sources */,
 				BFA8F9BA27992CF500076044 /* AppDelegate.swift in Sources */,
 				BFA8F9CE27992D7C00076044 /* ContentView.swift in Sources */,
+				BF2986D9279E36500074C9E4 /* ListScrollingProxy.swift in Sources */,
 				BF86D1B4279BA2E400A7CAC8 /* ImageCacheService.swift in Sources */,
 				BF86D1A4279B9F9300A7CAC8 /* MemoryCacheManager.swift in Sources */,
 				BFA8F9E22799333400076044 /* NetworkManager.swift in Sources */,

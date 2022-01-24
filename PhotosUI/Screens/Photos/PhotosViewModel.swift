@@ -102,4 +102,12 @@ extension PhotosViewModel {
         return height
     }
     
+    func nextPoint(_ idx: Int) -> CGPoint {
+        var height: CGFloat = 0
+        for i in 0...idx {
+            height += CGFloat(self.height(self.photos[i]))
+        }
+        return CGPoint(x: 0,
+                       y: height)
+    }
 }
