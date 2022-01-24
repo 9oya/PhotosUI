@@ -52,6 +52,13 @@ class DetailViewModel: ObservableObject {
                       let clinetId = Bundle.main.object(forInfoDictionaryKey: "UnsplashAccessKey") as? String else {
                     return Empty(completeImmediately: true).eraseToAnyPublisher()
                 }
+                if let keyword = self.keyword {
+                    return provider
+                        .photoService
+                        .search(keyword: keyword,
+                                page: self.page,
+                                clientId: clinetId)
+                }
                 return provider
                     .photoService
                     .photos(page: self.page,

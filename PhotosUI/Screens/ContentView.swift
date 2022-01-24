@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     
-    let provider = ServiceProvider.resolve()
+    let provider: ServiceProviderProtocol
     
     var body: some View {
         TabView {

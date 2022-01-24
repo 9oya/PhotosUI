@@ -15,15 +15,17 @@ class SearchViewModel: ObservableObject {
     var cancellables: [AnyCancellable] = []
     var page = 1
     var hasScrolled: Bool = false
+    private var isNewKeyword: Bool = false
     
     // MARK: Inputs
-    let fetchPhotos = PassthroughSubject<PhotoModel?, Never>()
+    let fetchPhotos = PassthroughSubject<(String, PhotoModel?), Never>()
     let loadImage = PassthroughSubject<PhotoModel, Never>()
     
     // MARK: Outputs
     @Published var photos = [PhotoModel]()
     @Published var photoImgMap = [PhotoModel: UIImage]()
     @Published var iterateRange: Range<Int> = 0..<0
+    @Published var scrollToTop: Bool = false
     
     init(provider: ServiceProviderProtocol) {
         self.provider = provider
@@ -31,24 +33,37 @@ class SearchViewModel: ObservableObject {
         fetchPhotos
             .setFailureType(to: Error.self)
             .receive(on: DispatchQueue.global(qos: .userInteractive))
-            .flatMap { [weak self] model -> AnyPublisher<[PhotoModel], Error> in
+            .flatMap { [weak self] (keyword, model) -> AnyPublisher<[PhotoModel], Error> in
                 guard let `self` = self,
                       model == nil || model == self.photos[self.photos.count-1],
                       let provider = self.provider,
                       let clinetId = Bundle.main.object(forInfoDictionaryKey: "UnsplashAccessKey") as? String else {
                     return Empty(completeImmediately: true).eraseToAnyPublisher()
                 }
+                if model == nil {
+                    self.isNewKeyword = true
+                    self.page = 1
+                } else {
+                    self.isNewKeyword = false
+                }
                 return provider
                     .photoService
-                    .photos(page: self.page,
+                    .search(keyword: keyword,
+                            page: self.page,
                             clientId: clinetId)
             }
             .replaceError(with: [])
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { _ in
             }, receiveValue: { photos in
-                self.photos.append(contentsOf: photos)
-                self.page += 1
+                if !self.isNewKeyword {
+                    self.photos.append(contentsOf: photos)
+                    self.page += 1
+                } else {
+                    self.photos = photos
+                    self.page = 1
+                    self.scrollToTop = true
+                }
                 self.iterateRange = 0..<self.photos.count/2
             })
             .store(in: &self.cancellables)
@@ -103,11 +118,8 @@ extension SearchViewModel {
     }
     
     func nextPoint(_ idx: Int) -> CGPoint {
-        var height: CGFloat = 0
-        for _ in 0...idx {
-            height += CGFloat(self.height())
-        }
+        let height: CGFloat = (self.height()*CGFloat(idx))/2
         return CGPoint(x: 0,
-                       y: height/2)
+                       y: height)
     }
 }

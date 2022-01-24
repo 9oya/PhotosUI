@@ -29,6 +29,11 @@ protocol PhotoServiceProtocol {
                 clientId: String)
     -> AnyPublisher<[PhotoModel], Error>
     
+    func search(keyword: String,
+                page: Int,
+                clientId: String)
+    -> AnyPublisher<[PhotoModel], Error>
+    
     func download(urlStr: String)
     -> AnyPublisher<Result<UIImage, Error>, Error>
     
@@ -64,6 +69,37 @@ class PhotoService: PhotoServiceProtocol {
                                 .decode([PhotoModel].self,
                                         from: data)
                             promise(.success(model))
+                        } catch let error {
+                            promise(.failure(error))
+                        }
+                    case .failure(let error):
+                        promise(.failure(error))
+                    }
+                }
+        }.eraseToAnyPublisher()
+    }
+    
+    func search(keyword: String,
+                page: Int,
+                clientId: String)
+    -> AnyPublisher<[PhotoModel], Error> {
+        let urlReq = APIRouter
+            .searchPhotos(clientId: clientId,
+                          page: page,
+                          query: keyword)
+            .asURLRequest()
+        return Future.init { [weak self] promise in
+            guard let `self` = self else { return }
+            self.provider
+                .networkManager
+                .dataTask(request: urlReq) { result in
+                    switch result {
+                    case .success(let data):
+                        do {
+                            let model = try self.decoder
+                                .decode(SearchPhotoModel.self,
+                                        from: data)
+                            promise(.success(model.results ?? []))
                         } catch let error {
                             promise(.failure(error))
                         }
