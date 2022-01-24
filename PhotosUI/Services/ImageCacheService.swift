@@ -24,10 +24,12 @@ enum CacheError: Error, CustomStringConvertible {
 
 protocol ImageCacheServiceProtocol {
     
+    /// Cache image into memory and disk
     func cacheImage(urlStr: String,
                     image: UIImage)
     -> AnyPublisher<Result<UIImage, Error>, Error>
     
+    /// Fetch cached image from memory or disk
     func fetchCachedImage(urlStr: String)
     -> AnyPublisher<Result<UIImage?, Error>, Error>
     

@@ -9,8 +9,13 @@ import Foundation
 import UIKit
 
 protocol DiskCacheManagerProtocol {
+    
+    /// Store data to the disk with key
     func storeIfNeed(key: String, data: Data) -> Bool
+    
+    /// Fetch data from the disk with key
     func fetch(key: String) -> Data?
+    
 }
 
 class DiskCacheManager: DiskCacheManagerProtocol {

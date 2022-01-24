@@ -9,8 +9,13 @@ import Foundation
 import UIKit
 
 protocol MemoryCacheManagerProtocol {
+    
+    /// Store image to the memory cache with key
     func store(key: String, image: UIImage)
+    
+    /// Fetch image from the memory cache with key
     func fetch(key: String) -> UIImage?
+    
 }
 
 class MemoryCacheManager: MemoryCacheManagerProtocol {

@@ -10,12 +10,15 @@ import Combine
 
 protocol ImageLoadServiceProtocol {
     
+    /// The function component for fetching cached image
     func fetchCachedImage(_ model: PhotoModel)
     -> AnyPublisher<Result<(PhotoModel, UIImage?), Error>, Error>
     
+    /// The function component for download image through network
     func downloadImage(_ result: Result<(PhotoModel, UIImage?), Error>)
     -> AnyPublisher<Result<(PhotoModel, UIImage), Error>, Error>
     
+    /// The function component for caching image into memory and disk
     func cacheImage(_ result: Result<(PhotoModel, UIImage), Error>)
     -> AnyPublisher<Result<(PhotoModel, UIImage), Error>, Error>
     

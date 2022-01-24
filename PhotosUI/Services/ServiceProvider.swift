@@ -23,7 +23,6 @@ extension ServiceProvider {
     static func resolve() -> ServiceProviderProtocol {
         
         let manager = ManagerProvider.resolve()
-        
         let photoService = PhotoService(provider: manager,
                                         decoder: JSONDecoder())
         let imageCacheServie = ImageCacheService(provider: manager)

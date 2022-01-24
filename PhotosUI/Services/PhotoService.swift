@@ -25,15 +25,18 @@ enum DownloadImageError: Error, CustomStringConvertible {
 
 protocol PhotoServiceProtocol {
     
+    /// Fetching photos from open api with page
     func photos(page: Int,
                 clientId: String)
     -> AnyPublisher<[PhotoModel], Error>
     
+    /// Fetching photos from open api with keyword and page
     func search(keyword: String,
                 page: Int,
                 clientId: String)
     -> AnyPublisher<[PhotoModel], Error>
     
+    /// Download image with image url
     func download(urlStr: String)
     -> AnyPublisher<Result<UIImage, Error>, Error>
     
