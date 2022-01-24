@@ -36,7 +36,7 @@ struct SearchView: View {
             .padding([.leading, .trailing], 16)
             List(viewModel.iterateRange, id: \.self) { i in
                 HStack(spacing: 0) {
-                    ForEach(0..<2) { j in
+                    ForEach(0..<2, id: \.self) { j in
                         let model = viewModel.photos[(i*2)+j]
                         Image(uiImage: self.viewModel.photoImgMap[model] ?? UIImage())
                             .resizable()
@@ -73,18 +73,20 @@ struct SearchView: View {
                            photoViewIdx: self.$detailIdx)
                     .onDisappear {
                         self.viewModel.photos = vm.photos
+                        self.viewModel.iterateRange = 0..<self.viewModel.photos.count/2
                         self.viewModel.photoImgMap = vm.photoImgMap
                         self.viewModel.hasScrolled = false
-                        self.viewModel.iterateRange = 0..<self.viewModel.photos.count/2
                         print("DetailView onDisappear")
                     }
             })
             .onReceive(Just(detailIdx)) { value in
                 if detailIdx > 0 && !viewModel.hasScrolled {
                     print("Start scrolling!!")
-                    self.scrollingProxy
-                        .scrollTo(.point(point: self.viewModel.nextPoint(value),
-                                         animated: false))
+                    DispatchQueue.main.async {
+                        self.scrollingProxy
+                            .scrollTo(.point(point: self.viewModel.nextPoint(value),
+                                             animated: false))
+                    }
                     viewModel.hasScrolled = true
                 }
             }

@@ -44,13 +44,30 @@ class PhotoServiceTests: XCTestCase {
         XCTAssertEqual(expectedReq, manager.urlRequest)
     }
     
+    func test_search() {
+        let keyword = "Apple"
+        let page = 1
+        let clientId = "testclientid"
+        
+        _ = service.search(keyword: keyword, page: page, clientId: clientId)
+            .sink { _ in
+            } receiveValue: { _ in
+            }
+        
+        let urlRequest = APIRouter.searchPhotos(
+            clientId: clientId,
+            page: page,
+            query: keyword).asURLRequest()
+        XCTAssertEqual(urlRequest, manager.urlRequest)
+    }
+    
     func test_download() {
         let urlStr = "TestUrlStr"
         
         _ = service.download(urlStr: urlStr)
-            .sink(receiveCompletion: { _ in
-            }, receiveValue: { _ in
-            })
+            .sink { _ in
+            } receiveValue: { _ in
+            }
         
         guard let url = URL(string: urlStr) else {
             fatalError()

@@ -25,6 +25,14 @@ class MockPhotoService: PhotoServiceProtocol {
         }.eraseToAnyPublisher()
     }
     
+    func search(keyword: String, page: Int, clientId: String) -> AnyPublisher<[PhotoModel], Error> {
+        self.keyword = keyword
+        self.page = page
+        return Future.init { promise in
+            promise(.success([]))
+        }.eraseToAnyPublisher()
+    }
+    
     func download(urlStr: String) -> AnyPublisher<Result<UIImage, Error>, Error> {
         self.urlStr = urlStr
         return Future.init { promise in

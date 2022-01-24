@@ -43,8 +43,8 @@ class DetailViewModel: ObservableObject {
             .filter({ idx in
                 return idx >= self.photos.count-2
             })
-            .handleEvents(receiveOutput: { _ in
-                self.isLoading = true
+            .handleEvents(receiveOutput: { [weak self] _ in
+                self?.isLoading = true
             })
             .flatMap { [weak self] model -> AnyPublisher<[PhotoModel], Error> in
                 guard let `self` = self,
@@ -67,9 +67,9 @@ class DetailViewModel: ObservableObject {
             .replaceError(with: [])
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { _ in
-            }, receiveValue: { photos in
+            }, receiveValue: { [weak self] photos in
+                guard let `self` = self else { return }
                 self.photos.append(contentsOf: photos)
-                print(self.photos.count)
                 self.page += 1
                 self.isLoading = false
             })

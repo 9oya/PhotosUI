@@ -58,12 +58,11 @@ class SearchViewModel: ObservableObject {
             }, receiveValue: { photos in
                 if !self.isNewKeyword {
                     self.photos.append(contentsOf: photos)
-                    self.page += 1
                 } else {
                     self.photos = photos
-                    self.page = 1
                     self.scrollToTop = true
                 }
+                self.page += 1
                 self.iterateRange = 0..<self.photos.count/2
             })
             .store(in: &self.cancellables)
