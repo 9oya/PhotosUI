@@ -24,7 +24,6 @@ class SearchViewModel: ObservableObject {
     @Published var photos = [PhotoModel]()
     @Published var photoImgMap = [PhotoModel: UIImage]()
     @Published var iterateRange: Range<Int> = 0..<0
-    @Published var isLoading: Bool = false
     
     init(provider: ServiceProviderProtocol) {
         self.provider = provider
@@ -39,9 +38,6 @@ class SearchViewModel: ObservableObject {
                       let clinetId = Bundle.main.object(forInfoDictionaryKey: "UnsplashAccessKey") as? String else {
                     return Empty(completeImmediately: true).eraseToAnyPublisher()
                 }
-                DispatchQueue.main.async {
-                    self.isLoading = true
-                }
                 return provider
                     .photoService
                     .photos(page: self.page,
@@ -54,7 +50,6 @@ class SearchViewModel: ObservableObject {
                 self.photos.append(contentsOf: photos)
                 self.page += 1
                 self.iterateRange = 0..<self.photos.count/2
-                self.isLoading = false
             })
             .store(in: &self.cancellables)
         
@@ -98,21 +93,21 @@ class SearchViewModel: ObservableObject {
 
 extension SearchViewModel {
     
-    func width(_ model: PhotoModel) -> CGFloat {
+    func width() -> CGFloat {
         let width = UIScreen.main.bounds.size.width / 2
         return width
     }
     
-    func height(_ model: PhotoModel) -> CGFloat {
-        return width(model)*1.5
+    func height() -> CGFloat {
+        return width()*1.5
     }
     
     func nextPoint(_ idx: Int) -> CGPoint {
         var height: CGFloat = 0
-        for i in 0...idx {
-            height += CGFloat(self.height(self.photos[i]))
+        for _ in 0...idx {
+            height += CGFloat(self.height())
         }
         return CGPoint(x: 0,
-                       y: height)
+                       y: height/2)
     }
 }
