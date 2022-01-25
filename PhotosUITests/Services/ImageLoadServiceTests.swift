@@ -30,7 +30,7 @@ class ImageLoadServiceTests: XCTestCase {
         provider = nil
     }
 
-    func testFetchCachedImage() {
+    func testImageLoad_fetchCachedImage() {
         // given
         let model = PhotoModel(id: "", createdAt: "", updatedAt: "", width: 0, height: 0, color: "", blurHash: "", likes: 0, likedByUser: false, description: "", urls: PhotoModel.Urls(raw: "", full: "", regular: "", small: "asdfasdfasd", thumb: ""), links: PhotoModel.Links(its: "", html: "", download: "", downloadLocation: ""))
         
@@ -44,7 +44,7 @@ class ImageLoadServiceTests: XCTestCase {
         XCTAssertEqual(model.urls.small, imageCachService.urlStr)
     }
     
-    func testDownloadImage_imageIsNil() {
+    func testImageLoad_downloadImage_imageIsNil() {
         // given
         let model = PhotoModel(id: "", createdAt: "", updatedAt: "", width: 0, height: 0, color: "", blurHash: "", likes: 0, likedByUser: false, description: "", urls: PhotoModel.Urls(raw: "", full: "", regular: "", small: "asdfasdfasd", thumb: ""), links: PhotoModel.Links(its: "", html: "", download: "", downloadLocation: ""))
         let result: Result<(PhotoModel, UIImage?), Error> = .success((model, nil))
@@ -59,7 +59,7 @@ class ImageLoadServiceTests: XCTestCase {
         XCTAssertEqual(model.urls.small, photoService.urlStr)
     }
     
-    func testDownloadImage_imageIsNotNil() {
+    func testImageLoad_downloadImage_imageIsNotNil() {
         // given
         let model = PhotoModel(id: "", createdAt: "", updatedAt: "", width: 0, height: 0, color: "", blurHash: "", likes: 0, likedByUser: false, description: "", urls: PhotoModel.Urls(raw: "", full: "", regular: "", small: "asdfasdfasd", thumb: ""), links: PhotoModel.Links(its: "", html: "", download: "", downloadLocation: ""))
         let result: Result<(PhotoModel, UIImage?), Error> = .success((model, UIImage()))
@@ -73,4 +73,27 @@ class ImageLoadServiceTests: XCTestCase {
         // then
         XCTAssertEqual(nil, photoService.urlStr)
     }
+    
+    func testImageLoad_cachImage() {
+        // given
+        let expectedModel = PhotoModel(id: "", createdAt: "", updatedAt: "", width: 0, height: 0, color: "", blurHash: "", likes: 0, likedByUser: false, description: "", urls: PhotoModel.Urls(raw: "", full: "", regular: "", small: "asdfasdfasd", thumb: ""), links: PhotoModel.Links(its: "", html: "", download: "", downloadLocation: ""))
+        let expectedImg = UIImage(named: "defaultImg")!
+        let result: Result<(PhotoModel, UIImage), Error> = .success((expectedModel, expectedImg))
+        
+        // when
+        let expect = expectation(description: "")
+        _ = service.cacheImage(result)
+            .sink(receiveCompletion: { _ in
+            }, receiveValue: { result in
+                guard case let .success((model, image)) = result else { return }
+                
+                // then
+                XCTAssertEqual(model, expectedModel)
+                XCTAssertNotNil(image)
+                expect.fulfill()
+            })
+        
+        wait(for: [expect], timeout: 1)
+    }
+    
 }

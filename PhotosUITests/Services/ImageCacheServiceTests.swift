@@ -6,9 +6,12 @@
 //
 
 import XCTest
+import Combine
 @testable import PhotosUI
 
 class ImageCacheServiceTests: XCTestCase {
+    
+    var cancellables = [AnyCancellable]()
     
     var provider: ManagerProviderProtocol!
     var memoryCacheManager: MockMemoryCacheManager!
@@ -50,16 +53,41 @@ class ImageCacheServiceTests: XCTestCase {
         XCTAssertEqual(data, diskCacheManager.data)
     }
     
-    func test_fetchCachedImage() {
+    func test_cache_failureImage() {
+        // given
         let urlStr = "TestUrlStr"
-        let image = UIImage(named: "defaultImg")!
+        let image = UIImage()
         
-        _ = service.cacheImage(urlStr: urlStr, image: image)
-            .sink { _ in
+        // when
+        let expectation = expectation(description: "CacheError")
+        service.cacheImage(urlStr: urlStr, image: image)
+            .sink { completion in
+                
+                // then
+                guard case .failure(let err) = completion else { return }
+                XCTAssertEqual(err as? CacheError, CacheError.invalidImage)
+                expectation.fulfill()
             } receiveValue: { _ in
+            }
+            .store(in: &cancellables)
+        wait(for: [expectation], timeout: 1)
+    }
+    
+    func test_fetch_cachedImage() {
+        let urlStr = "TestUrlStr"
+        
+        let expectation = expectation(description: "cachedImage")
+        _ = service.fetchCachedImage(urlStr: urlStr)
+            .sink { _ in
+            } receiveValue: { result in
+                guard case .success(let img) = result else { return }
+                XCTAssertNotNil(img)
+                expectation.fulfill()
             }
         
         let key = urlStr.removeSpecialCharsFromString()
         XCTAssertEqual(key, memoryCacheManager.key)
+        wait(for: [expectation], timeout: 1)
     }
+    
 }
