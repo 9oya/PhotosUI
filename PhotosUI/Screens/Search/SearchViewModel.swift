@@ -54,7 +54,9 @@ class SearchViewModel: ObservableObject {
             }
             .replaceError(with: [])
             .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { _ in
+            .sink(receiveCompletion: { compl in
+                guard case .failure(let error) = compl else { return }
+                print(error.localizedDescription)
             }, receiveValue: { photos in
                 if !self.isNewKeyword {
                     self.photos.append(contentsOf: photos)
@@ -92,7 +94,9 @@ class SearchViewModel: ObservableObject {
                 return provider.imageLoadService.cacheImage(result)
             }
             .receive(on: DispatchQueue.main)
-            .sink { _ in
+            .sink { compl in
+                guard case .failure(let error) = compl else { return }
+                print(error.localizedDescription)
             } receiveValue: { result in
                 switch result {
                 case .success(let (model, image)):

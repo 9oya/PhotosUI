@@ -43,7 +43,9 @@ class ImageLoadService: ImageLoadServiceProtocol {
                   let urlStr = model.urls.small else { return }
             _ = self.imageCacheServie?
                 .fetchCachedImage(urlStr: urlStr)
-                .sink(receiveCompletion: { _ in
+                .sink(receiveCompletion: { compl in
+                    guard case .failure(let error) = compl else { return }
+                    print(error.localizedDescription)
                 }, receiveValue: { result in
                     guard case let .success(image) = result else {
                         return
@@ -69,7 +71,9 @@ class ImageLoadService: ImageLoadServiceProtocol {
                 }
                 self.photoService?
                     .download(urlStr: urlStr)
-                    .sink(receiveCompletion: { _ in
+                    .sink(receiveCompletion: { compl in
+                        guard case .failure(let error) = compl else { return }
+                        print(error.localizedDescription)
                     }, receiveValue: { result in
                         switch result {
                         case .success(let image):
@@ -100,7 +104,9 @@ class ImageLoadService: ImageLoadServiceProtocol {
                 self.imageCacheServie?
                     .cacheImage(urlStr: urlStr,
                                 image: image)
-                    .sink(receiveCompletion: { _ in
+                    .sink(receiveCompletion: { compl in
+                        guard case .failure(let error) = compl else { return }
+                        print(error.localizedDescription)
                     }, receiveValue: { result in
                         switch result {
                         case .success(let image):

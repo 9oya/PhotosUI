@@ -66,7 +66,9 @@ class DetailViewModel: ObservableObject {
             }
             .replaceError(with: [])
             .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { _ in
+            .sink(receiveCompletion: { compl in
+                guard case .failure(let error) = compl else { return }
+                print(error.localizedDescription)
             }, receiveValue: { [weak self] photos in
                 guard let `self` = self else { return }
                 self.photos.append(contentsOf: photos)
@@ -100,7 +102,9 @@ class DetailViewModel: ObservableObject {
                 return provider.imageLoadService.cacheImage(result)
             }
             .receive(on: DispatchQueue.main)
-            .sink { _ in
+            .sink { compl in
+                guard case .failure(let error) = compl else { return }
+                print(error.localizedDescription)
             } receiveValue: { result in
                 switch result {
                 case .success(let (model, image)):
