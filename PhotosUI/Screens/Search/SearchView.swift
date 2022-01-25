@@ -72,6 +72,7 @@ struct SearchView: View {
                            currentIndex: self.viewModel.photos.firstIndex(where: { $0 == model }) ?? 0,
                            photoViewIdx: self.$detailIdx)
                     .onDisappear {
+                        self.viewModel.page = vm.page
                         self.viewModel.photos = vm.photos
                         self.viewModel.iterateRange = 0..<self.viewModel.photos.count/2
                         self.viewModel.photoImgMap = vm.photoImgMap
@@ -79,14 +80,12 @@ struct SearchView: View {
                         print("DetailView onDisappear")
                     }
             })
-            .onReceive(Just(detailIdx)) { value in
+            .onReceive(Just(detailIdx).receive(on: RunLoop.main)) { value in
                 if detailIdx > 0 && !viewModel.hasScrolled {
                     print("Start scrolling!!")
-                    DispatchQueue.main.async {
-                        self.scrollingProxy
-                            .scrollTo(.point(point: self.viewModel.nextPoint(value),
-                                             animated: false))
-                    }
+                    self.scrollingProxy
+                        .scrollTo(.point(point: self.viewModel.nextPoint(value),
+                                         animated: false))
                     viewModel.hasScrolled = true
                 }
             }

@@ -45,7 +45,7 @@ class ListScrollingProxy {
             case .end(let animated):
                 self.animated = animated
                 rect.origin.y = scroller.contentSize.height +
-                scroller.contentInset.bottom + scroller.contentInset.top - 1
+                scroller.contentInset.bottom + scroller.contentInset.top + 60
             case let .point(point, animated):
                 self.animated = animated
                 rect.origin.y = point.y

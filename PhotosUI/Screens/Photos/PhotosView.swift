@@ -49,6 +49,7 @@ struct PhotosView: View {
                        currentIndex: self.viewModel.photos.firstIndex(where: { $0 == model }) ?? 0,
                        photoViewIdx: self.$detailIdx)
                 .onDisappear {
+                    self.viewModel.page = vm.page
                     self.viewModel.photos = vm.photos
                     self.viewModel.photoImgMap = vm.photoImgMap
                     self.viewModel.hasScrolled = false
@@ -58,9 +59,11 @@ struct PhotosView: View {
         .onReceive(Just(detailIdx)) { value in
             if detailIdx > 0 && !viewModel.hasScrolled {
                 print("Start scrolling!!")
-                self.scrollingProxy
-                    .scrollTo(.point(point: self.viewModel.nextPoint(value),
-                                     animated: false))
+                DispatchQueue.main.async {
+                    self.scrollingProxy
+                        .scrollTo(.point(point: self.viewModel.nextPoint(value),
+                                         animated: false))
+                }
                 viewModel.hasScrolled = true
             }
         }

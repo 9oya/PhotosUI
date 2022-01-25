@@ -121,7 +121,7 @@ extension SearchViewModel {
     }
     
     func nextPoint(_ idx: Int) -> CGPoint {
-        let height: CGFloat = (self.height()*CGFloat(idx))/2
+        let height: CGFloat = (self.height()*CGFloat(idx+1))/2
         return CGPoint(x: 0,
                        y: height)
     }

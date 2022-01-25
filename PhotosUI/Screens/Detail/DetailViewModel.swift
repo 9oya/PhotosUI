@@ -13,8 +13,8 @@ class DetailViewModel: ObservableObject {
     
     var provider: ServiceProviderProtocol?
     var cancellables: [AnyCancellable] = []
-    
-    private var page: Int
+
+    var page: Int
     private var keyword: String?
     
     // MARK: Inputs
@@ -32,11 +32,11 @@ class DetailViewModel: ObservableObject {
          photoImgMap: [PhotoModel: UIImage],
          page: Int,
          keyword: String?) {
-        self.provider = provider
-        self.photos = photos
-        self.photoImgMap = photoImgMap
         self.page = page
+        self.provider = provider
+        self.photoImgMap = photoImgMap
         self.keyword = keyword
+        self.photos = photos
         
         idxChanged
             .setFailureType(to: Error.self)
