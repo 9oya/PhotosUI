@@ -22,18 +22,18 @@ struct DetailView: View {
             ForEach(viewModel.photos) { model in
                 VStack {
                     Spacer()
-                    Image(uiImage: self.viewModel.photoImgMap[model] ?? UIImage())
+                    Image(uiImage: viewModel.photoImgMap[model] ?? UIImage())
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .onAppear(perform: {
-                            self.viewModel.loadImage.send(model)
+                            viewModel.loadImage.send(model)
                         })
                     Spacer()
                 }
             }
         }.onReceive(Just(currentIndex), perform: { value in
-            if !self.viewModel.isLoading {
-                self.viewModel.idxChanged.send(value)
+            if !viewModel.isLoading {
+                viewModel.idxChanged.send(value)
             }
         }).onDisappear {
             photoViewIdx = currentIndex

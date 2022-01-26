@@ -18,9 +18,8 @@ class DetailViewModel: ObservableObject {
     private var keyword: String?
     
     // MARK: Inputs
-    let fetchPhotos = PassthroughSubject<PhotoModel?, Never>()
-    let loadImage = PassthroughSubject<PhotoModel, Never>()
     let idxChanged = PassthroughSubject<Int, Never>()
+    let loadImage = PassthroughSubject<PhotoModel, Never>()
     
     // MARK: Outputs
     @Published var photos = [PhotoModel]()
@@ -80,27 +79,9 @@ class DetailViewModel: ObservableObject {
         loadImage
             .setFailureType(to: Error.self)
             .receive(on: DispatchQueue.global(qos: .userInteractive))
-            .flatMap { [weak self] model -> AnyPublisher<Result<(PhotoModel, UIImage?), Error>, Error> in
-                guard let `self` = self,
-                      let provider = self.provider else {
-                    return Empty(completeImmediately: true).eraseToAnyPublisher()
-                }
-                return provider.imageLoadService.fetchCachedImage(model)
-            }
-            .flatMap { [weak self] result -> AnyPublisher<Result<(PhotoModel, UIImage), Error>, Error> in
-                guard let `self` = self,
-                      let provider = self.provider else {
-                    return Empty(completeImmediately: true).eraseToAnyPublisher()
-                }
-                return provider.imageLoadService.downloadImage(result)
-            }
-            .flatMap { [weak self] result -> AnyPublisher<Result<(PhotoModel, UIImage), Error>, Error> in
-                guard let `self` = self,
-                      let provider = self.provider else {
-                    return Empty(completeImmediately: true).eraseToAnyPublisher()
-                }
-                return provider.imageLoadService.cacheImage(result)
-            }
+            .flatMap(provider.imageLoadService.fetchCachedImage)
+            .flatMap(provider.imageLoadService.downloadImage)
+            .flatMap(provider.imageLoadService.cacheImage)
             .receive(on: DispatchQueue.main)
             .sink { compl in
                 guard case .failure(let error) = compl else { return }

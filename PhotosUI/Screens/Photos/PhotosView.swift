@@ -20,48 +20,48 @@ struct PhotosView: View {
     var body: some View {
         
         List(viewModel.photos, id: \.self) { model in
-            Image(uiImage: self.viewModel.photoImgMap[model] ?? UIImage())
+            Image(uiImage: viewModel.photoImgMap[model] ?? UIImage())
                 .listRowInsets(EdgeInsets())
-                .frame(width: self.viewModel.width(model),
-                       height: self.viewModel.height(model),
+                .frame(width: viewModel.width(model),
+                       height: viewModel.height(model),
                        alignment: .center)
-                .background(ListScrollingHelper(proxy: self.scrollingProxy))
+                .background(ListScrollingHelper(proxy: scrollingProxy))
                 .onAppear {
-                    self.viewModel.loadImage.send(model)
-                    self.viewModel.fetchPhotos.send(model)
+                    viewModel.loadImage.send(model)
+                    viewModel.fetchPhotos.send(model)
                 }
                 .onTapGesture {
-                    self.selectedItem = model
+                    selectedItem = model
                 }
         }
         .background(Color.black)
         .listStyle(.plain)
         .onAppear {
-            self.viewModel.fetchPhotos.send(nil)
+            viewModel.fetchPhotos.send(nil)
         }
-        .sheet(item: self.$selectedItem, content: { model in
-            let vm = DetailViewModel(provider: self.viewModel.provider!,
-                                     photos: self.viewModel.photos,
-                                     photoImgMap: self.viewModel.photoImgMap,
-                                     page: self.viewModel.page,
+        .sheet(item: $selectedItem, content: { model in
+            let vm = DetailViewModel(provider: viewModel.provider!,
+                                     photos: viewModel.photos,
+                                     photoImgMap: viewModel.photoImgMap,
+                                     page: viewModel.page,
                                      keyword: nil)
             DetailView(viewModel: vm,
-                       currentIndex: self.viewModel.photos.firstIndex(where: { $0 == model }) ?? 0,
-                       photoViewIdx: self.$detailIdx)
+                       currentIndex: viewModel.photos.firstIndex(where: { $0 == model }) ?? 0,
+                       photoViewIdx: $detailIdx)
                 .onDisappear {
-                    self.viewModel.page = vm.page
-                    self.viewModel.photos = vm.photos
-                    self.viewModel.photoImgMap = vm.photoImgMap
-                    self.viewModel.hasScrolled = false
+                    viewModel.page = vm.page
+                    viewModel.photos = vm.photos
+                    viewModel.photoImgMap = vm.photoImgMap
+                    viewModel.hasScrolled = false
                     print("DetailView onDisappear")
                 }
         })
         .onReceive(Just(detailIdx)) { value in
             if detailIdx > 0 && !viewModel.hasScrolled {
-                print("Start scrolling!!")
+                print("Scroll to position!!")
                 DispatchQueue.main.async {
-                    self.scrollingProxy
-                        .scrollTo(.point(point: self.viewModel.nextPoint(value),
+                    scrollingProxy
+                        .scrollTo(.point(point: viewModel.nextPoint(value),
                                          animated: false))
                 }
                 viewModel.hasScrolled = true

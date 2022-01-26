@@ -23,14 +23,14 @@ struct SearchView: View {
         VStack {
             HStack {
                 TextField("Search photos", text: $keyword) {
-                    self.viewModel.fetchPhotos.send((keyword, nil))
+                    viewModel.searchPhotos.send((keyword, nil))
                 }
                 .padding([.leading, .trailing], 8)
                 .frame(height: 32)
                 .background(Color.white.opacity(0.4))
                 .cornerRadius(8)
                 Button(LocalizedStringKey("Search")) {
-                    self.viewModel.fetchPhotos.send((keyword, nil))
+                    viewModel.searchPhotos.send((keyword, nil))
                 }
             }
             .padding([.leading, .trailing], 16)
@@ -38,63 +38,63 @@ struct SearchView: View {
                 HStack(spacing: 0) {
                     ForEach(0..<2, id: \.self) { j in
                         let model = viewModel.photos[(i*2)+j]
-                        Image(uiImage: self.viewModel.photoImgMap[model] ?? UIImage())
+                        Image(uiImage: viewModel.photoImgMap[model] ?? UIImage())
                             .resizable()
                             .aspectRatio(contentMode: .fill)
-                            .frame(width: self.viewModel.width(),
-                                   height: self.viewModel.height())
-                            .background(ListScrollingHelper(proxy: self.scrollingProxy))
+                            .frame(width: viewModel.width(),
+                                   height: viewModel.height())
+                            .background(ListScrollingHelper(proxy: scrollingProxy))
                             .clipped()
                             .onAppear {
-                                self.viewModel.loadImage.send(model)
-                                self.viewModel.fetchPhotos.send((keyword, model))
+                                viewModel.loadImage.send(model)
+                                viewModel.searchPhotos.send((keyword, model))
                             }
                             .onTapGesture {
-                                self.selectedItem = model
+                                selectedItem = model
                             }
                     }
                 }
                 .frame(width: UIScreen.main.bounds.size.width,
-                       height: self.viewModel.height())
+                       height: viewModel.height())
                 .listRowInsets(EdgeInsets())
             }
             .background(Color.black)
             .listStyle(.plain)
             .onAppear {
             }
-            .sheet(item: self.$selectedItem, content: { model in
-                let vm = DetailViewModel(provider: self.viewModel.provider!,
-                                         photos: self.viewModel.photos,
-                                         photoImgMap: self.viewModel.photoImgMap,
-                                         page: self.viewModel.page,
+            .sheet(item: $selectedItem, content: { model in
+                let vm = DetailViewModel(provider: viewModel.provider!,
+                                         photos: viewModel.photos,
+                                         photoImgMap: viewModel.photoImgMap,
+                                         page: viewModel.page,
                                          keyword: keyword)
                 DetailView(viewModel: vm,
-                           currentIndex: self.viewModel.photos.firstIndex(where: { $0 == model }) ?? 0,
-                           photoViewIdx: self.$detailIdx)
+                           currentIndex: viewModel.photos.firstIndex(where: { $0 == model }) ?? 0,
+                           photoViewIdx: $detailIdx)
                     .onDisappear {
-                        self.viewModel.page = vm.page
-                        self.viewModel.photos = vm.photos
-                        self.viewModel.iterateRange = 0..<self.viewModel.photos.count/2
-                        self.viewModel.photoImgMap = vm.photoImgMap
-                        self.viewModel.hasScrolled = false
+                        viewModel.page = vm.page
+                        viewModel.photos = vm.photos
+                        viewModel.iterateRange = 0..<viewModel.photos.count/2
+                        viewModel.photoImgMap = vm.photoImgMap
+                        viewModel.hasScrolled = false
                         print("DetailView onDisappear")
                     }
             })
-            .onReceive(Just(detailIdx).receive(on: RunLoop.main)) { value in
+            .onReceive(Just(detailIdx)) { value in
                 if detailIdx > 0 && !viewModel.hasScrolled {
-                    print("Start scrolling!!")
-                    self.scrollingProxy
-                        .scrollTo(.point(point: self.viewModel.nextPoint(value),
+                    print("Scroll to position!!")
+                    scrollingProxy
+                        .scrollTo(.point(point: viewModel.nextPoint(value),
                                          animated: false))
                     viewModel.hasScrolled = true
                 }
             }
-            .onReceive(Just(self.viewModel.scrollToTop)) { value in
+            .onReceive(Just(viewModel.scrollToTop)) { value in
                 if value {
                     DispatchQueue.main.async {
-                        self.scrollingProxy.scrollTo(.top(animated: false))
+                        scrollingProxy.scrollTo(.top(animated: false))
                     }
-                    self.viewModel.scrollToTop = false
+                    viewModel.scrollToTop = false
                 }
             }
         }

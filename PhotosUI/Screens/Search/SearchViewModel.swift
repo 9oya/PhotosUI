@@ -18,7 +18,7 @@ class SearchViewModel: ObservableObject {
     private var isNewKeyword: Bool = false
     
     // MARK: Inputs
-    let fetchPhotos = PassthroughSubject<(String, PhotoModel?), Never>()
+    let searchPhotos = PassthroughSubject<(String, PhotoModel?), Never>()
     let loadImage = PassthroughSubject<PhotoModel, Never>()
     
     // MARK: Outputs
@@ -30,21 +30,30 @@ class SearchViewModel: ObservableObject {
     init(provider: ServiceProviderProtocol) {
         self.provider = provider
         
-        fetchPhotos
+        searchPhotos
             .setFailureType(to: Error.self)
-            .receive(on: DispatchQueue.global(qos: .userInteractive))
-            .flatMap { [weak self] (keyword, model) -> AnyPublisher<[PhotoModel], Error> in
+            .filter { [weak self] (keyword, model) in
                 guard let `self` = self,
-                      model == nil || model == self.photos[self.photos.count-1],
-                      let provider = self.provider,
-                      let clinetId = Bundle.main.object(forInfoDictionaryKey: "UnsplashAccessKey") as? String else {
-                    return Empty(completeImmediately: true).eraseToAnyPublisher()
-                }
+                      model == nil || model == self.photos[self.photos.count-1] else {
+                          return false
+                      }
+                return true
+            }
+            .handleEvents(receiveOutput: { [weak self] (keyword, model) in
+                guard let `self` = self else { return }
                 if model == nil {
                     self.isNewKeyword = true
                     self.page = 1
                 } else {
                     self.isNewKeyword = false
+                }
+            })
+            .receive(on: DispatchQueue.global(qos: .userInteractive))
+            .flatMap { [weak self] (keyword, model) -> AnyPublisher<[PhotoModel], Error> in
+                guard let `self` = self,
+                      let provider = self.provider,
+                      let clinetId = Bundle.main.object(forInfoDictionaryKey: "UnsplashAccessKey") as? String else {
+                    return Empty(completeImmediately: true).eraseToAnyPublisher()
                 }
                 return provider
                     .photoService
@@ -67,32 +76,14 @@ class SearchViewModel: ObservableObject {
                 self.page += 1
                 self.iterateRange = 0..<self.photos.count/2
             })
-            .store(in: &self.cancellables)
+            .store(in: &cancellables)
         
         loadImage
             .setFailureType(to: Error.self)
             .receive(on: DispatchQueue.global(qos: .userInteractive))
-            .flatMap { [weak self] model -> AnyPublisher<Result<(PhotoModel, UIImage?), Error>, Error> in
-                guard let `self` = self,
-                      let provider = self.provider else {
-                    return Empty(completeImmediately: true).eraseToAnyPublisher()
-                }
-                return provider.imageLoadService.fetchCachedImage(model)
-            }
-            .flatMap { [weak self] result -> AnyPublisher<Result<(PhotoModel, UIImage), Error>, Error> in
-                guard let `self` = self,
-                      let provider = self.provider else {
-                    return Empty(completeImmediately: true).eraseToAnyPublisher()
-                }
-                return provider.imageLoadService.downloadImage(result)
-            }
-            .flatMap { [weak self] result -> AnyPublisher<Result<(PhotoModel, UIImage), Error>, Error> in
-                guard let `self` = self,
-                      let provider = self.provider else {
-                    return Empty(completeImmediately: true).eraseToAnyPublisher()
-                }
-                return provider.imageLoadService.cacheImage(result)
-            }
+            .flatMap(provider.imageLoadService.fetchCachedImage)
+            .flatMap(provider.imageLoadService.downloadImage)
+            .flatMap(provider.imageLoadService.cacheImage)
             .receive(on: DispatchQueue.main)
             .sink { compl in
                 guard case .failure(let error) = compl else { return }

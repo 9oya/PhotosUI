@@ -29,10 +29,16 @@ class PhotosViewModel: ObservableObject {
         
         fetchPhotos
             .setFailureType(to: Error.self)
+            .filter { [weak self] model in
+                guard let `self` = self,
+                      model == nil || model == self.photos[self.photos.count-2] else {
+                          return false
+                      }
+                return true
+            }
             .receive(on: DispatchQueue.global(qos: .userInteractive))
             .flatMap { [weak self] model -> AnyPublisher<[PhotoModel], Error> in
                 guard let `self` = self,
-                      model == nil || model == self.photos[self.photos.count-2],
                       let provider = self.provider,
                       let clinetId = Bundle.main.object(forInfoDictionaryKey: "UnsplashAccessKey") as? String else {
                     return Empty(completeImmediately: true).eraseToAnyPublisher()
@@ -51,32 +57,14 @@ class PhotosViewModel: ObservableObject {
                 self.photos.append(contentsOf: photos)
                 self.page += 1
             })
-            .store(in: &self.cancellables)
+            .store(in: &cancellables)
         
         loadImage
             .setFailureType(to: Error.self)
             .receive(on: DispatchQueue.global(qos: .userInteractive))
-            .flatMap { [weak self] model -> AnyPublisher<Result<(PhotoModel, UIImage?), Error>, Error> in
-                guard let `self` = self,
-                      let provider = self.provider else {
-                    return Empty(completeImmediately: true).eraseToAnyPublisher()
-                }
-                return provider.imageLoadService.fetchCachedImage(model)
-            }
-            .flatMap { [weak self] result -> AnyPublisher<Result<(PhotoModel, UIImage), Error>, Error> in
-                guard let `self` = self,
-                      let provider = self.provider else {
-                    return Empty(completeImmediately: true).eraseToAnyPublisher()
-                }
-                return provider.imageLoadService.downloadImage(result)
-            }
-            .flatMap { [weak self] result -> AnyPublisher<Result<(PhotoModel, UIImage), Error>, Error> in
-                guard let `self` = self,
-                      let provider = self.provider else {
-                    return Empty(completeImmediately: true).eraseToAnyPublisher()
-                }
-                return provider.imageLoadService.cacheImage(result)
-            }
+            .flatMap(provider.imageLoadService.fetchCachedImage)
+            .flatMap(provider.imageLoadService.downloadImage)
+            .flatMap(provider.imageLoadService.cacheImage)
             .receive(on: DispatchQueue.main)
             .sink { compl in
                 guard case .failure(let error) = compl else { return }
@@ -109,7 +97,9 @@ extension PhotosViewModel {
     
     func nextPoint(_ idx: Int) -> CGPoint {
         var height: CGFloat = 0
-        (0...idx).forEach { height += CGFloat(self.height(self.photos[$0])) }
+        height = (0...idx).reduce(0) {
+            $0 + CGFloat(self.height(self.photos[$1]))
+        }
         return CGPoint(x: 0,
                        y: height)
     }
